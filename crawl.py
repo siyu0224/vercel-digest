@@ -227,7 +227,8 @@ def hn_extract(hit, fetch_cmts=True):
 
 # ── X / Twitter ───────────────────────────────────────────────────────────────
 
-def twitter_fetch(limit=300):
+def twitter_fetch():
+    """Fetch ALL tweets matching the query for the past 7 days, paginating until exhausted."""
     token = os.getenv("TWITTER_BEARER_TOKEN")
     if not token:
         print("  ⚠️  No TWITTER_BEARER_TOKEN — skipping X")
@@ -246,11 +247,10 @@ def twitter_fetch(limit=300):
     all_tweets, all_users = [], {}
     next_token = None
 
-    while len(all_tweets) < limit:
-        batch = min(100, limit - len(all_tweets))
+    while True:
         params = {
             "query": query,
-            "max_results": batch,
+            "max_results": 100,  # always fetch max per page
             "tweet.fields": "public_metrics,created_at,author_id,text",
             "expansions": "author_id",
             "user.fields": "username,name",
@@ -268,12 +268,14 @@ def twitter_fetch(limit=300):
             r.raise_for_status()
             data = r.json()
             batch_tweets = data.get("data", [])
+            if not batch_tweets:
+                break
             all_tweets.extend(batch_tweets)
             for u in data.get("includes", {}).get("users", []):
                 all_users[u["id"]] = u
             next_token = data.get("meta", {}).get("next_token")
             print(f"  ✅  X/Twitter page: {len(batch_tweets)} tweets (total: {len(all_tweets)})")
-            if not next_token or not batch_tweets:
+            if not next_token:
                 break
             time.sleep(2)
         except Exception as e:
@@ -482,7 +484,7 @@ def main():
 
     # ── X / Twitter ──
     print(f"\n🔍  X/Twitter (past 7 days)…")
-    raw_tweets, tweet_users = twitter_fetch(limit=300)
+    raw_tweets, tweet_users = twitter_fetch()
     twitter_posts = [twitter_extract(t, tweet_users) for t in raw_tweets]
     twitter_posts.sort(key=lambda p: p["score"], reverse=True)
     print(f"    → {len(twitter_posts)} tweets")
@@ -509,8 +511,9 @@ def main():
         build_prompt(hn_posts, args.time, "Hacker News"), "Hacker News")
     github_summary = claude_summarize(
         build_github_prompt(gh_posts, args.time), "GitHub Issues")
+    # Send top 150 by engagement to Claude (controls prompt size/cost)
     twitter_summary = claude_summarize(
-        build_twitter_prompt(twitter_posts, args.time), "X/Twitter") if twitter_posts else ""
+        build_twitter_prompt(twitter_posts[:150], args.time), "X/Twitter") if twitter_posts else ""
     overview_summary = claude_summarize(
         build_overview_prompt(reddit_summary, hn_summary, github_summary, twitter_summary, args.time), "Overview")
 

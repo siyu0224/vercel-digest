@@ -1,22 +1,22 @@
 {
-  "generated": "2026-03-15 04:29",
+  "generated": "2026-03-15 04:37",
   "time_filter": "month",
   "overview": {
-    "summary": "\n\n# Vercel Community Pulse \u2014 Combined Monthly Overview\n\n## What Everyone's Talking About\n\n**Vercel's identity shift from \"frontend hosting\" to \"AI infrastructure company\"** is the meta-narrative threading through every source. On X, it's the AI SDK, agent-browser, skills directory, and AI Gateway. On Hacker News, it's \"Vercel for X\" becoming shorthand for opinionated deployment. On Reddit, it's the cost consequences of that infrastructure being pay-per-use in a world where AI bots are the heaviest consumers. On GitHub, it's the growing pains \u2014 workflow queue latency, serverless-vs-long-running tensions in the Chat SDK, and Turbopack breaking the tooling ecosystem.\n\n**Three dominant threads:**\n\n1. **The billing crisis is structural, not anecdotal.** AI crawlers (GPTBot, Claude, Meta) are generating millions of unwanted requests. DDoS attacks produce triple-digit bills in minutes. Image optimization and middleware silently multiply costs. This isn't a few edge cases \u2014 it's a fundamental tension between pay-per-use pricing and a web increasingly dominated by non-human traffic.\n\n2. **The \"vibe coding\" stack has calcified around Vercel.** Claude/Cursor + Supabase + Vercel + Stripe is now the default template across X, Reddit, and tutorials. Vercel is table-stakes. But this ubiquity is creating a second-order problem: AI-generated codebases shipping on Vercel with god-files, no tests, and missing auth checks \u2014 and the billing model punishes those apps hardest when bots find them.\n\n3. **The self-hosting countermovement is real and growing.** Not just Reddit contrarians \u2014 the \"PaaS is dead\" thread on X got 116 hearts, Hetzner + Coolify is a recurring recommendation, and the GitHub issue requesting pluggable deployment adapters (deploy to Vercel *or* Netlify *or* bare Node from one CLI) signals the ecosystem is hedging against lock-in.\n\n---\n\n## Consensus Views\n\n**All four communities agree on these:**\n\n- **Vercel's deployment DX remains best-in-class.** Nobody disputes \"git push and it's live.\" Even the harshest critics on Reddit acknowledge this. X is effusive. HN uses it as the benchmark other platforms aspire to.\n\n- **Cost unpredictability is the #1 risk.** Reddit documents it with receipts ($274 in 5 minutes, bills doubling from middleware). X surfaces it from indie devs hit deploying demos. GitHub shows it structurally (free-tier deployments getting paused, breaking thousands of downstream users). HN sidesteps it only because Vercel wasn't the direct subject of major threads this month.\n\n- **AI bot traffic is an unsolved crisis for pay-per-use platforms.** Reddit's 407-upvote GPTBot thread, X complaints about function timeouts from agent workloads, and the broader HN skepticism about whether these platforms can survive non-human traffic all converge on the same point.\n\n- **Next.js complexity fatigue is setting in.** Reddit's 206-upvote \"SPA Reality Check\" and the TanStack Start comparison, X's enthusiastic adoption of simpler stacks, and GitHub's Turbopack sourcemap breakage all suggest the App Router/RSC bet is generating real friction alongside its power.\n\n---\n\n## Where They Diverge\n\n**Reddit vs. X is the starkest split.** Reddit is where people go after they get the bill \u2014 the tone is cautionary, migration-oriented, and increasingly hostile to pay-per-use models. X is where people go when they ship \u2014 the tone is celebratory, AI-forward, and treats Vercel as essential infrastructure. Same product, completely different emotional registers.\n\n**Hacker News is the most detached.** Vercel is discussed abstractly as a deployment archetype rather than a product to evaluate. The community is more interested in whether the *pattern* (opinionated, platform-specific deployment) should be replicated for agents and sandboxes, and generally skeptical that it should.\n\n**GitHub reveals what the other platforms don't:** quiet infrastructure problems. The 4.5-second workflow queue times (25-30\u00d7 overhead vs. execution) and the Chat SDK's serverless-vs-long-running tension aren't getting airtime on Reddit or X, but they're the kind of issues that erode trust in Vercel's newer product bets.\n\n**The self-hosting debate maps to experience level.** Reddit's pro-VPS camp skews toward experienced developers comfortable managing infrastructure. X's pro-Vercel camp skews toward \"vibe coders\" and indie hackers optimizing for speed-to-deploy. Neither is wrong \u2014 they're solving different problems.\n\n---\n\n## Overall Sentiment\n\n**Positive on capability, anxious about cost, uncertain about trajectory.**\n\nVercel has successfully positioned itself at the center of the AI-era developer stack. The product surface area is expanding rapidly (AI SDK, agent-browser, skills directory, AI Gateway, workflows), and the developer community is genuinely building on it. The Notion partnership is a significant enterprise signal.\n\nBut there's an undercurrent of fragility. The billing model that works beautifully for predictable human traffic becomes adversarial when bots, crawlers, and DDoS attacks arrive \u2014 and those are now the default condition of the internet. The lack of spend caps, slow support response during billing emergencies, and bot protection not being enabled by default read as product gaps, not edge cases.\n\nThe community is splitting into two camps: **businesses generating revenue** (who find Vercel's cost justified) and **everyone else** (hobbyists, OSS maintainers, indie devs) who increasingly see the pricing model as a liability. The second camp is larger and louder, and it's actively building escape hatches.\n\n---\n\n## Top Signals This Month\n\n1. **Bot protection should be on by default, not opt-in.** Multiple users across Reddit and X were hit with bot-driven bills before discovering WAF settings exist. This is the single highest-leverage product change Vercel could make to address billing anxiety.\n\n2. **Spend caps / hard limits are table-stakes.** The $274-in-5-minutes DDoS story, the middleware bill-doubling, and the free-tier overage warnings all point to the same gap. Vercel's competitors (Cloudflare, Netlify) are winning converts on this alone.\n\n3. **Workflow queue latency is a credibility risk for a beta product.** 4.5-second queue times dwarfing 180ms execution times, with no official response, could quietly kill adoption of Vercel Workflows before it scales.\n\n4. **The \"Vercel for agents\" space is forming \u2014 and Vercel is in it.** Agent-browser, AI Gateway, and the skills directory position Vercel well, but HN's skepticism about whether purpose-built agent platforms are needed (vs. Kubernetes) suggests the value proposition needs sharper articulation.\n\n5. **Free-tier reliability is a reputational issue at scale.** The github-profile-trophy 503 (DEPLOYMENT_PAUSED) broke thousands of GitHub READMEs. Popular OSS tools hosted on Vercel's free tier become Vercel's brand ambassadors \u2014 and its brand liabilities \u2014 simultaneously.\n\n6. **The Dubai region incident exposed an architectural assumption.** Global middleware deployment failing because a single region is down \u2014 even for users with no presence in that region \u2014 is the kind of design choice that erodes enterprise trust.\n\n---\n\n## Must-Read Posts & Issues\n\n1. **[GPTBot 164K requests/day forcing Vercel Pro upgrade](https://reddit.com/r/webdev/comments/1rbgr3n/gptbot_164k_request_a_day_to_my_opensource/)** (Reddit, 407 pts) \u2014 The defining post of the month. Crystallizes the AI-crawler \u00d7 pay-per-use collision that affects every Vercel user.\n\n2. **[Vercel Workflow step queue times ~4-5s](https://github.com/vercel/workflow/issues/1160)** (GitHub, \ud83d\udc4d7) \u2014 Low reaction count belies high importance. Real performance data showing 25\u00d7 overhead on a beta product with no team response.\n\n3. **[Notion CEO: \"We chose Vercel\"](https://x.com/ivanhzhao/status/2032192313737285902)** (X, \u2764\ufe0f183) \u2014 The strongest enterprise endorsement signal this month, and a marker of Vercel's positioning beyond developer tooling.\n\n4. **[DDoS caused $274 in 5 minutes \u2014 support silent for 3 days](https://reddit.com/r/vercel/comments/1rg81ba/ddos_attack_caused_from_0_to_274_in_charges_in_5/)** (Reddit, 34 ",
+    "summary": "# Vercel Monthly Pulse \u2014 Combined Overview\n\n## What Everyone's Talking About\n\n**The cost of convenience is under a microscope.** Across every channel, the central tension is identical: Vercel's developer experience remains the industry benchmark, but the economics are breaking down for a growing segment of users. AI crawlers (GPTBot, Claude, Meta) are hammering sites with millions of unchecked requests, turning pay-as-you-go billing into an existential risk for small projects. DDoS events, image optimization charges, and middleware compute costs are generating surprise bills that erode trust faster than any competitor could.\n\n**Vercel is becoming the default agent deployment layer** \u2014 and simultaneously hitting the ceiling of what serverless can do for agents. On X, the AI SDK and Chat SDK ecosystems are exploding with third-party adapters (Resend, iMessage, WhatsApp, LangChain), and the agent-browser is generating genuine excitement. But the 800-second function timeout and 4\u20135 second workflow queue times (documented on GitHub) reveal that Vercel's infrastructure wasn't built for the long-running, stateful workloads that agents demand. This is the most consequential product gap surfacing this month.\n\n**The \"just use a VPS\" movement is real and accelerating.** Reddit and contrarian X voices are converging on a Hetzner + Coolify/self-hosted stack as the pragmatic alternative. This isn't theoretical grumbling \u2014 developers are sharing migration stories, cost comparisons ($50K\u2013200K annual savings at scale), and \"PaaS is dead\" manifestos. The argument has shifted from \"Vercel is too expensive\" to \"the entire serverless-by-default model is misaligned with how most apps actually work.\"\n\n**Next.js fatigue is feeding framework diversification.** TanStack Start, Vite SPAs, and Astro are capturing developer energy that previously defaulted to Next.js. The criticism is specific: memory leaks (9\u201310GB dev server), RSC/App Router complexity for apps that don't need SSR, and a perception that Vercel pushed server rendering to sell compute rather than to solve real user problems. GitHub issues around pluggable deployment adapters signal demand for framework-agnostic tooling that doesn't lock you into any single platform.\n\n## Consensus Views\n\nAll four communities agree on these points:\n\n1. **Vercel's DX is best-in-class and not seriously contested.** Zero-config deploys, preview URLs, and the \"it just works\" onboarding remain the gold standard. Even the harshest critics acknowledge this.\n\n2. **The billing model is a liability without spend caps and default DDoS protection.** Reddit, GitHub, and X all surface concrete horror stories. The $274-in-5-minutes DDoS post, the image optimization bill doubling, and the paused free-tier deployment breaking thousands of GitHub READMEs all point to the same structural problem: users bear all downside risk with no automatic circuit breakers.\n\n3. **AI crawler traffic is a platform-level problem that Vercel hasn't adequately addressed.** GPTBot at 164K requests/day, Claude at 12M in 15 days, Meta ignoring robots.txt entirely. This isn't a user misconfiguration \u2014 it's a new class of traffic that the pricing model doesn't account for.\n\n4. **The agent/AI ecosystem is Vercel's most compelling growth vector.** X is enthusiastic, HN references Vercel as the aspirational deployment model for new agent platforms, and GitHub shows active third-party development around the Chat SDK and AI Gateway.\n\n5. **Free-tier fragility is a reputation risk.** The github-profile-trophy 503 (GitHub), unexpected free-tier charges (X), and the broader \"why are community tools hosted on Vercel?\" question all converge on the same concern: pausing or billing free-tier projects without warning undermines the ecosystem that drives adoption.\n\n## Where They Diverge\n\n**Reddit vs. X represent two different Vercels.** Reddit skews toward experienced developers managing production costs, and the dominant emotion is frustration \u2014 billing surprises, migration planning, framework fatigue. X skews toward builders shipping new things, and the dominant emotion is excitement \u2014 AI SDK adapters, agent-browser autonomy stories, \"solo SaaS stack\" energy. Reddit is asking \"should I leave?\" while X is asking \"what should I build next?\"\n\n**Hacker News is notably detached.** Vercel barely registers as a direct topic \u2014 it's invoked as a metaphor (\"Vercel for X\") or an implementation detail. The HN crowd is more interested in whether specialized agent infrastructure is needed at all versus using Kubernetes, which implicitly challenges Vercel's abstraction layer from the opposite direction of the Reddit VPS crowd.\n\n**GitHub reveals the engineering reality that social platforms narrativize.** The 4\u20135 second workflow queue overhead isn't a Twitter complaint \u2014 it's a measured, reproducible issue with no official timeline. The pluggable adapter requests show that even developers who like Vercel's stack want escape hatches. These are the leading indicators that social sentiment will eventually catch up to.\n\n**The enterprise signal is almost exclusively on X.** Notion's CEO endorsement, SaaStr Diamond sponsorship, Techweek presence \u2014 none of this registers on Reddit or HN, where enterprise adoption is either invisible or actively mocked. This suggests Vercel's upmarket motion is succeeding in executive circles while ground-level developer sentiment drifts skeptical.\n\n## Overall Sentiment\n\n**Polarizing but structurally stable \u2014 for now.** Vercel occupies an unusual position: simultaneously the default choice and the most-questioned one. The positive sentiment is real but concentrated in two areas (initial DX and the AI/agent ecosystem). The negative sentiment is also real and concentrated in two areas (billing/pricing and framework complexity). The middle ground \u2014 production teams running conventional web apps \u2014 is where the erosion is happening, quietly, through migrations that don't generate viral posts.\n\nThe most accurate read is: **Vercel is winning the next platform war (agents/AI) while losing the last one (general web hosting) to simpler, cheaper alternatives.** Whether the new war generates enough revenue and loyalty to offset the attrition depends on how fast the agent infrastructure matures \u2014 and whether the billing model evolves before trust damage becomes permanent.\n\n## Top Signals This Month\n\n1. **Spend limits and DDoS protection must become defaults, not opt-ins.** Every source surfaces this. The current model puts Vercel one viral billing horror story away from a serious brand crisis. The AI crawler problem specifically needs a platform-level response \u2014 individual robots.txt management is not a solution at scale.\n\n2. **The 800-second function timeout is the single biggest blocker for agent adoption.** X developers are hitting it, asking about it publicly, and considering alternatives. If Vercel wants to be *the* agent deployment layer, long-running compute is table stakes, not a roadmap item.\n\n3. **Workflow queue latency (4\u20135s overhead on 170ms tasks) is a trust problem for Vercel's newest products.** This is an open GitHub issue since February with no resolution. For a beta product trying to establish credibility, 25\u00d7 overhead with no official response is corrosive.\n\n4. **The pluggable adapter demand signals platform lock-in anxiety.** Developers want to use Vercel's ecosystem tools without being permanently committed to Vercel's infrastructure. Meeting this demand (or visibly ignoring it) will shape framework-level loyalty.\n\n5. **The \"solo builder + AI + Vercel\" stack is a genuine cultural moment.** The viral tweet format placing Vercel alongside Cursor, Supabase, and Stripe as the four pillars of solo SaaS is organic marketing that money can't buy. Protecting and nurturing this use case \u2014 especially on the free and Pro tiers \u2014 has outsized brand value.\n\n## Must-Read Posts & Issues\n\n1. **[GPTBot 164K requests/day forcing Vercel Pro upgrade](https://reddit.com/r/webdev/comments/1rbgr3n/)** (Reddit, 404 pts) \u2014 The canonical thread on AI crawler economics. Documents the problem, the community's proposed solutions, and the migration calculus. Every product and billing team member should read this.\n\n2. **[Workflow step queue times ~4-5s on Vercel World](https://github.com/vercel/workflow/issues/1160)** (GitHub) \u2014 The most consequential open issue this month. Measured, reproducible, unanswered. Directly undermines the pitch for Vercel's workflow product.\n\n3. **[Agent browser autonomously closes 30 Linear tickets](https://x.com/odysseus0z/status/2031225713190384036)** (X, 175 \u2764\ufe0f) \u2014 The best showcase of what Vercel's agent tooling enables. This is the future the platform is selling, and it's working.\n\n4. **[Next.js 16 vs TanStack Start",
     "reddit_count": 57,
     "hn_count": 2,
     "gh_count": 6,
-    "twitter_count": 299
+    "twitter_count": 366
   },
   "reddit": {
-    "summary": "# Reddit Discussions About Vercel \u2014 Monthly Summary\n\n## Key Themes\n- **Vercel billing surprises** \u2014 unexpected costs from bot traffic, middleware, image optimization, and DDoS attacks\n- **Self-hosting alternatives** \u2014 strong push toward VPS (Hetzner, Coolify, Railway, Cloudflare) over pay-per-use platforms\n- **Next.js fatigue** \u2014 growing sentiment that Next.js/SSR is overkill for many projects; renewed interest in Vite SPAs and TanStack Start\n- **AI crawler abuse** \u2014 GPTBot, Claude, and Meta crawlers hammering sites with millions of requests, driving up costs\n- **Vibe-coded project quality** \u2014 concerns about AI-generated codebases shipping with poor architecture and silent bugs\n\n## Overall Sentiment\n**Mixed-to-critical.** Vercel's DX and deployment simplicity are genuinely praised, but billing unpredictability dominates the conversation. There's a clear sentiment split: businesses that generate revenue find Vercel worthwhile; hobbyists and small projects increasingly see it as a trap. The community is actively migrating to cheaper alternatives or demanding better cost guardrails.\n\n## Top Complaints & Issues\n1. **Unpredictable/escalating bills** \u2014 DDoS causing $274 in 5 minutes (#18), image optimization doubling infra costs (#12), middleware doubling bills (#19), and free-tier edge request warnings (#13)\n2. **AI bot traffic driving costs** \u2014 GPTBot at 164K requests/day (#3), Claude at 12M requests in 15 days (#6), with no effective throttling\n3. **Global deployment fragility** \u2014 Dubai region outage blocked all middleware deployments globally, even for users with zero Dubai presence (#16, #37)\n4. **Slow support response** \u2014 3+ days without response during a billing emergency (#18)\n5. **Vendor lock-in concerns** \u2014 OpenNext still hacky, self-hosting Next.js requires significant tuning (#25)\n\n## Top Praise\n- **Unmatched deployment DX** \u2014 \"git push and it's live\" still impresses (#27, #8)\n- **Free tier works for 99% of new apps** \u2014 survivorship bias in complaints (#8)\n- **OSS sponsorship program** \u2014 genuinely appreciated by recipients (#15)\n- **Feature-rich for businesses** \u2014 PR previews, caching, edge functions justify cost when revenue supports it (#8)\n\n## Interesting Debates\n- **Vercel vs. VPS** \u2014 The most recurring debate. Pro-VPS camp argues $5/month Hetzner + Coolify solves everything; pro-Vercel camp counters that developer time managing infra costs more than $20-50/month (#3, #8, #20)\n- **Next.js vs. everything else** \u2014 Growing chorus questioning whether RSC/App Router complexity is justified; TanStack Start gaining real traction as an alternative (#4, #5)\n- **Should Vercel enable bot protection by default?** \u2014 Multiple users hit with bot-driven bills before discovering WAF settings exist (#18)\n- **\"Vibe coding\" quality** \u2014 Senior devs report AI-built repos arriving with god-files, missing permission checks, and no tests; debate over whether AI helps or hurts junior developers (#24, #33)\n\n## Must-Read Posts\n\n1. **[GPTBot 164K requests/day forcing Vercel Pro upgrade](https://reddit.com/r/webdev/comments/1rbgr3n/gptbot_164k_request_a_day_to_my_opensource/)** (Score: 407) \u2014 Crystallizes the AI-crawler-meets-pay-per-use problem, with the top comment calling out the entire model: *\"I hate modern web dev and everyone running small projects on pay-by-use platforms.\"*\n\n2. **[Next.js 16 vs. TanStack Start with actual data](https://reddit.com/r/reactjs/comments/1r5ek4n/i_compared_nextjs_16_and_tanstack_start_with/)** (Score: 150) \u2014 Rare data-driven framework comparison covering memory leaks, CVEs, and a $50K-200K cost delta over three years.\n\n3. **[Next.js / SPA Reality Check](https://reddit.com/r/reactjs/comments/1rrjkfm/nextjs_spa_reality_check/)** (Score: 206) \u2014 Captures the growing backlash against SSR-by-default culture, with a sharp observation: *\"A lot of the tech-influencers who got people into NextJS moved on once Vercel stopped paying them.\"*\n\n4. **[DDoS caused $274 in 5 minutes \u2014 Vercel support silent for 3 days](https://reddit.com/r/vercel/comments/1rg81ba/ddos_attack_caused_from_0_to_274_in_charges_in_5/)** (Score: 34) \u2014 A cautionary tale about missing spend limits and slow support during billing emergencies.\n\n5. **[Vercel failing deployments because Dubai is down](https://reddit.com/r/vercel/comments/1rios2c/vercel_is_failing_my_deployment_because_dubai_is/)** (Score: 35) \u2014 Exposes how Vercel's global middleware deployment model creates unexpected single points of failure.",
+    "summary": "## Key Themes\n- **Vercel billing surprises** \u2014 bot traffic, middleware costs, image optimization charges, and DDoS-triggered bills dominate discussions\n- **Migration away from Vercel** \u2014 strong push toward VPS (Hetzner + Coolify), Cloudflare, and Railway as cheaper alternatives\n- **AI crawler abuse** \u2014 GPTBot, Claude, and Meta crawlers hammering sites with millions of requests, effectively DDoSing small projects\n- **Next.js fatigue** \u2014 growing sentiment that Next.js/App Router is overkill for most projects; Vite SPAs and TanStack Start gaining favor\n- **Vibe-coded project quality** \u2014 concerns about AI-generated codebases shipping with poor architecture, silent bugs, and no optimization\n\n## Overall Sentiment\nPredominantly **skeptical-to-frustrated** toward Vercel's pricing model and Next.js complexity. Developers respect the DX but increasingly question the cost-benefit ratio. There's a clear undercurrent of \"just use a VPS\" pragmatism. Community energy is shifting toward simpler stacks (Vite, Astro, TanStack) and self-hosting. Showcase/project posts remain enthusiastic.\n\n## Top Complaints & Issues\n- **Unexpected bills** from bot traffic, middleware duplication, image optimization, and DDoS with slow support response (#3, #7, #12, #13, #16, #19)\n- **AI crawlers ignoring robots.txt** \u2014 OpenAI (164k req/day), Claude (12M in 15 days), Meta (ignoring robots.txt entirely) (#3, #6)\n- **Global middleware deployment** causing failures when a single region (Dubai) goes down, even for unrelated projects (#17, #38)\n- **Next.js memory issues** \u2014 dev server hitting 9-10GB, production OOM crashes in Docker/K8s (#5)\n- **Overly demanding take-home assessments** requiring full-stack apps deployed on Vercel for job applications (#9)\n\n## Top Praise\n- **Vercel's DX remains best-in-class** \u2014 zero-config deploys, PR previews, and \"it just works\" simplicity (#8, #26)\n- **Free tier and OSS sponsorship program** genuinely appreciated (#15)\n- **Vercel Doctor** community tool for optimizing bills well-received (#29)\n- **Creative projects** deployed on Vercel (fake Gmail cricket app, 3D portfolio, digital bouquets) showcase the platform's accessibility (#1, #11, #18)\n\n## Interesting Debates\n- **\"Why are people still on Vercel?\"** \u2014 split between \"the DX is worth it for businesses\" vs. \"you're paying 10x for what a $5 VPS does\" (#8, #20)\n- **Next.js vs. TanStack Start** \u2014 real data on memory, security CVEs, and hosting costs fueling migration conversations; TanStack's \"server-first then client-only\" model gaining converts (#5)\n- **SSR as a Vercel revenue strategy** \u2014 commenters argue Vercel pushed SSR/RSC to sell more compute, not because most apps need it (#4)\n- **Spend limits and DDoS responsibility** \u2014 debate over whether Vercel should enable protections by default or if it's a \"skill issue\" (#16, #7)\n\n## Must-Read Posts\n\n1. **[GPTBot 164k requests/day forcing Vercel Pro upgrade](https://reddit.com/r/webdev/comments/1rbgr3n/)** (Score: 404) \u2014 The definitive thread on AI crawler abuse economics, with strong consensus toward VPS/Cloudflare alternatives.\n\n2. **[Next.js 16 vs TanStack Start with actual data](https://reddit.com/r/reactjs/comments/1r5ek4n/)** (Score: 149) \u2014 Rare data-driven framework comparison covering memory leaks, CVEs, and $50K-200K cost differences at scale.\n\n3. **[Next.js / SPA Reality Check](https://reddit.com/r/reactjs/comments/1rrjkfm/)** (Score: 205) \u2014 Captures the growing backlash against SSR/RSC complexity, with sharp commentary on Vercel-funded influencer marketing.\n\n4. **[DDoS caused $274 in 5 minutes, support silent for 3 days](https://reddit.com/r/vercel/comments/1rg81ba/)** (Score: 36) \u2014 Illustrates the real risk of pay-as-you-go without safeguards, plus Vercel's official response on attack mode.\n\n5. **[Vercel image optimization nearly doubled our bill](https://reddit.com/r/nextjs/comments/1rqt900/)** (Score: 50) \u2014 Practical thread on escaping next/image costs at scale with Bunny.net, Cloudflare Images, and custom loaders.",
     "post_count": 57,
     "posts": [
       {
         "source": "reddit",
         "title": "Built a fake Gmail that secretly shows live cricket. Press Escape to hide it when your boss walks by.",
         "subreddit": "webdev",
-        "score": 1529,
+        "score": 1528,
         "num_comments": 112,
         "url": "https://reddit.com/r/webdev/comments/1rht8p3/built_a_fake_gmail_that_secretly_shows_live/",
         "hn_url": "",
@@ -26,7 +26,7 @@
         "source": "reddit",
         "title": "Client-side passport photo maker - ONNX/WASM background removal, WebGPU, and zero server processing",
         "subreddit": "webdev",
-        "score": 1274,
+        "score": 1275,
         "num_comments": 73,
         "url": "https://reddit.com/r/webdev/comments/1rh5qfm/clientside_passport_photo_maker_onnxwasm/",
         "hn_url": "",
@@ -36,7 +36,7 @@
         "source": "reddit",
         "title": "GPTBot 164k request a day to my open-source project? Now have to pay for Vercel pro",
         "subreddit": "webdev",
-        "score": 407,
+        "score": 404,
         "num_comments": 157,
         "url": "https://reddit.com/r/webdev/comments/1rbgr3n/gptbot_164k_request_a_day_to_my_opensource/",
         "hn_url": "",
@@ -46,7 +46,7 @@
         "source": "reddit",
         "title": "Next.js / SPA Reality Check",
         "subreddit": "reactjs",
-        "score": 206,
+        "score": 205,
         "num_comments": 60,
         "url": "https://reddit.com/r/reactjs/comments/1rrjkfm/nextjs_spa_reality_check/",
         "hn_url": "",
@@ -56,7 +56,7 @@
         "source": "reddit",
         "title": "I compared Next.js 16 and TanStack Start with actual data instead of opinions. Here's what I found.",
         "subreddit": "reactjs",
-        "score": 150,
+        "score": 149,
         "num_comments": 56,
         "url": "https://reddit.com/r/reactjs/comments/1r5ek4n/i_compared_nextjs_16_and_tanstack_start_with/",
         "hn_url": "",
@@ -66,7 +66,7 @@
         "source": "reddit",
         "title": "Claude...",
         "subreddit": "webdev",
-        "score": 116,
+        "score": 113,
         "num_comments": 24,
         "url": "https://reddit.com/r/webdev/comments/1rnn36q/claude/",
         "hn_url": "",
@@ -76,7 +76,7 @@
         "source": "reddit",
         "title": "Vercel :(",
         "subreddit": "nextjs",
-        "score": 111,
+        "score": 112,
         "num_comments": 65,
         "url": "https://reddit.com/r/nextjs/comments/1rnuo0v/vercel/",
         "hn_url": "",
@@ -86,7 +86,7 @@
         "source": "reddit",
         "title": "Why are people still hosting on Vercel?",
         "subreddit": "nextjs",
-        "score": 97,
+        "score": 99,
         "num_comments": 139,
         "url": "https://reddit.com/r/nextjs/comments/1rr2d3j/why_are_people_still_hosting_on_vercel/",
         "hn_url": "",
@@ -96,7 +96,7 @@
         "source": "reddit",
         "title": "How is this the industry standard?",
         "subreddit": "webdev",
-        "score": 97,
+        "score": 96,
         "num_comments": 88,
         "url": "https://reddit.com/r/webdev/comments/1rmd81r/how_is_this_the_industry_standard/",
         "hn_url": "",
@@ -116,7 +116,7 @@
         "source": "reddit",
         "title": "Would love your feedback on my new 3d portfolio",
         "subreddit": "webdev",
-        "score": 61,
+        "score": 62,
         "num_comments": 32,
         "url": "https://reddit.com/r/webdev/comments/1r4h73t/would_love_your_feedback_on_my_new_3d_portfolio/",
         "hn_url": "",
@@ -136,8 +136,8 @@
         "source": "reddit",
         "title": "Got the Vercel 75% warning (750k edge requests) on my free side project. How do I stop the bleeding? (App Router)",
         "subreddit": "nextjs",
-        "score": 44,
-        "num_comments": 42,
+        "score": 46,
+        "num_comments": 43,
         "url": "https://reddit.com/r/nextjs/comments/1rrz4xj/got_the_vercel_75_warning_750k_edge_requests_on/",
         "hn_url": "",
         "date": "2026-03-12"
@@ -146,7 +146,7 @@
         "source": "reddit",
         "title": "Got my first paid project. Yoohooo",
         "subreddit": "webdev",
-        "score": 37,
+        "score": 39,
         "num_comments": 26,
         "url": "https://reddit.com/r/webdev/comments/1rdiszw/got_my_first_paid_project_yoohooo/",
         "hn_url": "",
@@ -156,11 +156,21 @@
         "source": "reddit",
         "title": "Thank you so much Vercel!!!",
         "subreddit": "vercel",
-        "score": 36,
+        "score": 38,
         "num_comments": 8,
         "url": "https://reddit.com/r/vercel/comments/1r6afua/thank_you_so_much_vercel/",
         "hn_url": "",
         "date": "2026-02-16"
+      },
+      {
+        "source": "reddit",
+        "title": "DDoS attack caused from 0 to $274 in charges in 5 minutes - Vercel support hasn't responded in 3 days",
+        "subreddit": "vercel",
+        "score": 36,
+        "num_comments": 46,
+        "url": "https://reddit.com/r/vercel/comments/1rg81ba/ddos_attack_caused_from_0_to_274_in_charges_in_5/",
+        "hn_url": "",
+        "date": "2026-02-27"
       },
       {
         "source": "reddit",
@@ -176,7 +186,7 @@
         "source": "reddit",
         "title": "I built a website where you can create digital flower bouquets for someone \ud83c\udf38",
         "subreddit": "reactjs",
-        "score": 35,
+        "score": 33,
         "num_comments": 18,
         "url": "https://reddit.com/r/reactjs/comments/1rr3cih/i_built_a_website_where_you_can_create_digital/",
         "hn_url": "",
@@ -184,19 +194,9 @@
       },
       {
         "source": "reddit",
-        "title": "DDoS attack caused from 0 to $274 in charges in 5 minutes - Vercel support hasn't responded in 3 days",
-        "subreddit": "vercel",
-        "score": 34,
-        "num_comments": 46,
-        "url": "https://reddit.com/r/vercel/comments/1rg81ba/ddos_attack_caused_from_0_to_274_in_charges_in_5/",
-        "hn_url": "",
-        "date": "2026-02-27"
-      },
-      {
-        "source": "reddit",
         "title": "Adding middleware has doubled my Vercel cost",
         "subreddit": "nextjs",
-        "score": 30,
+        "score": 29,
         "num_comments": 25,
         "url": "https://reddit.com/r/nextjs/comments/1rjt23k/adding_middleware_has_doubled_my_vercel_cost/",
         "hn_url": "",
@@ -206,7 +206,7 @@
         "source": "reddit",
         "title": "Vercel alternative or avoid $20/m",
         "subreddit": "nextjs",
-        "score": 30,
+        "score": 27,
         "num_comments": 127,
         "url": "https://reddit.com/r/nextjs/comments/1rov1f8/vercel_alternative_or_avoid_20m/",
         "hn_url": "",
@@ -216,7 +216,7 @@
         "source": "reddit",
         "title": "What are you actually using for observability/monitoring on small or side projects?",
         "subreddit": "node",
-        "score": 29,
+        "score": 27,
         "num_comments": 35,
         "url": "https://reddit.com/r/node/comments/1rmfej2/what_are_you_actually_using_for/",
         "hn_url": "",
@@ -226,7 +226,7 @@
         "source": "reddit",
         "title": "[Showoff Saturday] I built a real-time breaking news monitor that detects breaking events by volume spikes, not editorial picks",
         "subreddit": "webdev",
-        "score": 27,
+        "score": 25,
         "num_comments": 4,
         "url": "https://reddit.com/r/webdev/comments/1rgxlpe/showoff_saturday_i_built_a_realtime_breaking_news/",
         "hn_url": "",
@@ -244,9 +244,19 @@
       },
       {
         "source": "reddit",
-        "title": "I let AI refactor a 32k line SaaS",
+        "title": "Is OpenNext worth using or should I migrate away from NextJS? (I wanna move away from Vercel)",
         "subreddit": "nextjs",
         "score": 21,
+        "num_comments": 34,
+        "url": "https://reddit.com/r/nextjs/comments/1rawl4x/is_opennext_worth_using_or_should_i_migrate_away/",
+        "hn_url": "",
+        "date": "2026-02-21"
+      },
+      {
+        "source": "reddit",
+        "title": "I let AI refactor a 32k line SaaS",
+        "subreddit": "nextjs",
+        "score": 20,
         "num_comments": 12,
         "url": "https://reddit.com/r/nextjs/comments/1roy15l/i_let_ai_refactor_a_32k_line_saas/",
         "hn_url": "",
@@ -254,13 +264,13 @@
       },
       {
         "source": "reddit",
-        "title": "Is OpenNext worth using or should I migrate away from NextJS? (I wanna move away from Vercel)",
-        "subreddit": "nextjs",
-        "score": 20,
-        "num_comments": 34,
-        "url": "https://reddit.com/r/nextjs/comments/1rawl4x/is_opennext_worth_using_or_should_i_migrate_away/",
+        "title": "the weirdest thing about deploying on vercel",
+        "subreddit": "vercel",
+        "score": 18,
+        "num_comments": 14,
+        "url": "https://reddit.com/r/vercel/comments/1rmoe8f/the_weirdest_thing_about_deploying_on_vercel/",
         "hn_url": "",
-        "date": "2026-02-21"
+        "date": "2026-03-06"
       },
       {
         "source": "reddit",
@@ -274,19 +284,19 @@
       },
       {
         "source": "reddit",
-        "title": "the weirdest thing about deploying on vercel",
-        "subreddit": "vercel",
+        "title": "I built a headless multi-step form library for react-hook-form",
+        "subreddit": "reactjs",
         "score": 17,
-        "num_comments": 14,
-        "url": "https://reddit.com/r/vercel/comments/1rmoe8f/the_weirdest_thing_about_deploying_on_vercel/",
+        "num_comments": 12,
+        "url": "https://reddit.com/r/reactjs/comments/1r4gxf0/i_built_a_headless_multistep_form_library_for/",
         "hn_url": "",
-        "date": "2026-03-06"
+        "date": "2026-02-14"
       },
       {
         "source": "reddit",
         "title": "Kept seeing racked up Vercel bills every now and then, built a tool to fix this once and for all",
         "subreddit": "vercel",
-        "score": 17,
+        "score": 16,
         "num_comments": 5,
         "url": "https://reddit.com/r/vercel/comments/1r9umkt/kept_seeing_racked_up_vercel_bills_every_now_and/",
         "hn_url": "",
@@ -296,7 +306,7 @@
         "source": "reddit",
         "title": "A Unified Analytics SDK",
         "subreddit": "javascript",
-        "score": 16,
+        "score": 14,
         "num_comments": 2,
         "url": "https://reddit.com/r/javascript/comments/1rgrs9g/a_unified_analytics_sdk/",
         "hn_url": "",
@@ -304,19 +314,9 @@
       },
       {
         "source": "reddit",
-        "title": "I built a headless multi-step form library for react-hook-form",
-        "subreddit": "reactjs",
-        "score": 15,
-        "num_comments": 12,
-        "url": "https://reddit.com/r/reactjs/comments/1r4gxf0/i_built_a_headless_multistep_form_library_for/",
-        "hn_url": "",
-        "date": "2026-02-14"
-      },
-      {
-        "source": "reddit",
         "title": "State of React survey",
         "subreddit": "reactjs",
-        "score": 15,
+        "score": 14,
         "num_comments": 4,
         "url": "https://reddit.com/r/reactjs/comments/1r3b68w/state_of_react_survey/",
         "hn_url": "",
@@ -326,7 +326,7 @@
         "source": "reddit",
         "title": "3640 animated icons for Reactjs",
         "subreddit": "reactjs",
-        "score": 14,
+        "score": 12,
         "num_comments": 20,
         "url": "https://reddit.com/r/reactjs/comments/1rpd6j4/3640_animated_icons_for_reactjs/",
         "hn_url": "",
@@ -336,8 +336,8 @@
         "source": "reddit",
         "title": "Problem with React Viber Coders",
         "subreddit": "reactjs",
-        "score": 12,
-        "num_comments": 25,
+        "score": 11,
+        "num_comments": 26,
         "url": "https://reddit.com/r/reactjs/comments/1ru59v4/problem_with_react_viber_coders/",
         "hn_url": "",
         "date": "2026-03-15"
@@ -354,16 +354,6 @@
       },
       {
         "source": "reddit",
-        "title": "Built a tiny tool to generate React Hook Form + Zod schemas from JSON instantly. Free and open for feedback!",
-        "subreddit": "reactjs",
-        "score": 10,
-        "num_comments": 8,
-        "url": "https://reddit.com/r/reactjs/comments/1roevcs/built_a_tiny_tool_to_generate_react_hook_form_zod/",
-        "hn_url": "",
-        "date": "2026-03-08"
-      },
-      {
-        "source": "reddit",
         "title": "I built a 10x smaller alternative to parquet-wasm for edge runtimes",
         "subreddit": "node",
         "score": 10,
@@ -374,23 +364,33 @@
       },
       {
         "source": "reddit",
-        "title": "anyone ? internal error?",
-        "subreddit": "vercel",
+        "title": "Built a tiny tool to generate React Hook Form + Zod schemas from JSON instantly. Free and open for feedback!",
+        "subreddit": "reactjs",
         "score": 9,
-        "num_comments": 18,
-        "url": "https://reddit.com/r/vercel/comments/1ripbtw/anyone_internal_error/",
+        "num_comments": 8,
+        "url": "https://reddit.com/r/reactjs/comments/1roevcs/built_a_tiny_tool_to_generate_react_hook_form_zod/",
         "hn_url": "",
-        "date": "2026-03-02"
+        "date": "2026-03-08"
       },
       {
         "source": "reddit",
         "title": "Mermaidcn  -- Mermaid diagrams for Shadcn",
         "subreddit": "reactjs",
-        "score": 8,
+        "score": 9,
         "num_comments": 5,
         "url": "https://reddit.com/r/reactjs/comments/1r3g1p0/mermaidcn_mermaid_diagrams_for_shadcn/",
         "hn_url": "",
         "date": "2026-02-13"
+      },
+      {
+        "source": "reddit",
+        "title": "anyone ? internal error?",
+        "subreddit": "vercel",
+        "score": 7,
+        "num_comments": 18,
+        "url": "https://reddit.com/r/vercel/comments/1ripbtw/anyone_internal_error/",
+        "hn_url": "",
+        "date": "2026-03-02"
       },
       {
         "source": "reddit",
@@ -404,16 +404,6 @@
       },
       {
         "source": "reddit",
-        "title": "Just completed a client project with Next.js + Vercel and earned \u20b920k \u2014 would love feedback from the community",
-        "subreddit": "vercel",
-        "score": 7,
-        "num_comments": 9,
-        "url": "https://reddit.com/r/vercel/comments/1roclgn/just_completed_a_client_project_with_nextjs/",
-        "hn_url": "",
-        "date": "2026-03-08"
-      },
-      {
-        "source": "reddit",
         "title": "I built an uptime dashboard that monitors 69 developer services (OpenAI, Vercel, Cloudflare, Stripe, etc.); polled every 60 seconds",
         "subreddit": "devops",
         "score": 7,
@@ -421,6 +411,16 @@
         "url": "https://reddit.com/r/devops/comments/1r9m1n7/i_built_an_uptime_dashboard_that_monitors_69/",
         "hn_url": "",
         "date": "2026-02-20"
+      },
+      {
+        "source": "reddit",
+        "title": "Just completed a client project with Next.js + Vercel and earned \u20b920k \u2014 would love feedback from the community",
+        "subreddit": "vercel",
+        "score": 6,
+        "num_comments": 9,
+        "url": "https://reddit.com/r/vercel/comments/1roclgn/just_completed_a_client_project_with_nextjs/",
+        "hn_url": "",
+        "date": "2026-03-08"
       },
       {
         "source": "reddit",
@@ -436,7 +436,7 @@
         "source": "reddit",
         "title": "Stripe webhook testing tool validation",
         "subreddit": "node",
-        "score": 4,
+        "score": 5,
         "num_comments": 3,
         "url": "https://reddit.com/r/node/comments/1r3x81w/stripe_webhook_testing_tool_validation/",
         "hn_url": "",
@@ -554,16 +554,6 @@
       },
       {
         "source": "reddit",
-        "title": "StatusHub \u2014 free unified status dashboard for monitoring 40+ services (AWS, GCP, GitHub, Stripe, etc.)",
-        "subreddit": "devops",
-        "score": 0,
-        "num_comments": 5,
-        "url": "https://reddit.com/r/devops/comments/1rccvc3/statushub_free_unified_status_dashboard_for/",
-        "hn_url": "",
-        "date": "2026-02-23"
-      },
-      {
-        "source": "reddit",
         "title": "I built a self-hosted secrets API for Vaultwarden \u2014 like 1Password Secrets Automation, but your credentials never leave your network",
         "subreddit": "devops",
         "score": 0,
@@ -571,6 +561,16 @@
         "url": "https://reddit.com/r/devops/comments/1rbijwi/i_built_a_selfhosted_secrets_api_for_vaultwarden/",
         "hn_url": "",
         "date": "2026-02-22"
+      },
+      {
+        "source": "reddit",
+        "title": "StatusHub \u2014 free unified status dashboard for monitoring 40+ services (AWS, GCP, GitHub, Stripe, etc.)",
+        "subreddit": "devops",
+        "score": 0,
+        "num_comments": 5,
+        "url": "https://reddit.com/r/devops/comments/1rccvc3/statushub_free_unified_status_dashboard_for/",
+        "hn_url": "",
+        "date": "2026-02-23"
       },
       {
         "source": "reddit",
@@ -585,7 +585,7 @@
     ]
   },
   "hn": {
-    "summary": "# Hacker News Discussions: Vercel \u2014 Past Month Summary\n\n## Key Themes\n- **\"Vercel for X\" as a framing device**: Vercel's deployment model is now a recognized shorthand for easy, opinionated infrastructure \u2014 Terminal Use explicitly brands itself as \"Vercel for filesystem-based agents.\"\n- **Agent deployment infrastructure**: The dominant discussion centers on whether new specialized platforms are needed for AI agent deployment or if existing tools (Kubernetes, Docker, etc.) suffice.\n- **Open-source self-hostable alternatives**: Projects like Opencom highlight the trend of building open-source tools deployable on Vercel-adjacent stacks (Convex, Next.js).\n\n## Overall Sentiment\n**Neutral to mildly skeptical.** Vercel itself isn't directly criticized or praised \u2014 it's referenced as a benchmark. The conversations focus on whether Vercel-like abstractions are needed in new domains (agents, sandboxed environments) or whether existing infra already covers these use cases.\n\n## Top Complaints & Issues\n- **\"Why not just use existing infra?\"** \u2014 Skepticism about the need for yet another deployment platform when Kubernetes and Docker already exist.\n- **Crowded/fragmented tooling market** \u2014 Multiple commenters note overlap with sprites.dev, shellbox.dev, exe.dev, blaxel.ai, LangGraph, etc., signaling fatigue with the proliferation of agent infra tools.\n- **Unclear differentiation** \u2014 Repeated requests for ELI5 comparisons suggest the value prop isn't landing cleanly.\n\n## Top Praise\n- Terminal Use's launch drew genuine interest (115 points) and was called \"really interesting\" for its sandboxed filesystem approach.\n- Opencom praised for addressing a real pain point (Intercom pricing/complexity).\n\n## Interesting Debates\n- **Specialized agent platforms vs. general-purpose infra**: The core tension \u2014 do AI agents need purpose-built deployment primitives (checkpointing, NFS, durable execution) or is this solvable with existing orchestration?\n- **Build vs. buy for agent tooling**: Whether rolling your own NFS/checkpointing is necessary or if emerging tools are mature enough.\n\n## Must-Read Posts\n1. **Terminal Use Launch** (115 pts) \u2014 The \"Vercel for agents\" pitch and the skeptical responses are the most substantive thread: [https://news.ycombinator.com/item?id=47311657](https://news.ycombinator.com/item?id=47311657)\n2. **\"Why not Kubernetes?\"** comment \u2014 Crystallizes the core pushback against new deployment abstractions: [https://news.ycombinator.com/item?id=47311657](https://news.ycombinator.com/item?id=47311657)\n3. **Opencom Show HN** \u2014 Relevant as an example of the open-source + Vercel-stack ecosystem: [https://github.com/opencom-org/opencom](https://github.com/opencom-org/opencom)",
+    "summary": "# Hacker News Discussions about Vercel \u2013 Monthly Summary\n\n## Key Themes\n- **\"Vercel for X\" as a positioning metaphor**: Terminal Use (YC W26) brands itself as \"Vercel for filesystem-based agents,\" using Vercel's name as shorthand for streamlined deployment experiences.\n- **Agent deployment infrastructure**: The main discussion centers on whether new specialized tools are needed to deploy AI agents vs. using existing infrastructure (Kubernetes, Docker, etc.).\n- **Open-source alternatives to SaaS products**: Opencom positions itself as a self-hostable Intercom alternative deployed on Vercel-adjacent stacks (Next.js, Convex).\n\n## Overall Sentiment\nNeutral to mildly positive toward Vercel itself\u2014it's referenced as an aspirational deployment model rather than directly discussed. The conversations focus on the products being launched, not Vercel as a platform.\n\n## Top Complaints & Issues\n- **\"Why not existing infra?\"**: Skepticism about whether specialized agent deployment platforms add value over Kubernetes and existing container orchestration.\n- **Crowded/fragmented market**: Multiple commenters note overlapping tools (sprites.dev, shellbox.dev, exe.dev, blaxel.ai) making it hard to differentiate.\n\n## Top Praise\n- Terminal Use's sandboxed filesystem approach seen as **\"really interesting\"** for coding agent use cases.\n- Opencom praised for addressing Intercom's **complex and expensive pricing** with an open-source alternative.\n\n## Interesting Debates\n- **Build vs. buy for agent infra**: Should teams use purpose-built agent platforms or leverage existing Kubernetes clusters? No consensus reached.\n- **How Terminal Use differs from Fly.io's sprites.dev**: Commenters push for clearer differentiation among the growing wave of sandboxed compute products.\n\n## Must-Read Posts\n1. **[Terminal Use Launch HN](https://news.ycombinator.com/item?id=47311657)** (115 pts) \u2013 The core discussion on deploying filesystem-based agents, with good comparison questions about competing tools.\n2. **[Opencom Show HN](https://github.com/opencom-org/opencom)** (6 pts) \u2013 Open-source Intercom alternative built on Next.js/Convex stack; light discussion but relevant to the self-hosted/open-source trend.",
     "post_count": 2,
     "posts": [
       {
@@ -611,7 +611,7 @@
     ]
   },
   "github": {
-    "summary": "## Most Reported Bugs\n\n| Issue | Reactions | Summary |\n|-------|-----------|---------|\n| **Pluggable deployment adapters** (vinext) | \ud83d\udc4d **20** \ud83d\udd34 | Deploy pipeline hardcoded to Cloudflare Workers; no way to target Vercel/Netlify/Node without forking |\n| **Bugsnag CLI crash on Turbopack builds** | \ud83d\udc4d 13 | `.map` files with mismatched hashes cause `open : no such file or directory` \u2014 hard to debug on Vercel prod. Closed/fixed. |\n| **Disabled tools still in system prompt** (LobeHub) | \ud83d\udc4d 9 | LLMs attempt to call disabled tools because they're still injected into the prompt. Deployed on Vercel. |\n| **Workflow step queue times ~4-5s** | \ud83d\udc4d 7 | Steps executing in ~180ms but sitting in queue 4-5s on Vercel World. Massive wall-clock inflation. |\n| **503 DEPLOYMENT_PAUSED** (github-profile-trophy) | \ud83d\udc4d 6 | Widely-used trophy badge service returning 503; Vercel deployment paused, breaking thousands of READMEs. |\n\nNo single issue crosses \ud83d\udc4d 20, but the vinext adapter issue sits right at the threshold.\n\n## Most Requested Features\n\n- **Pluggable deployment adapters** \u2014 deploy to Vercel, Netlify, generic Node from a single CLI (vinext #80)\n- **Gateway/Transport Listener Adapter Interface** (Vercel Chat SDK) \u2014 decouple transport from platform adapters so Discord bots work on Edge/serverless runtimes, not just long-running Node processes\n- **Better Turbopack sourcemap conventions** \u2014 tooling ecosystem (Bugsnag, Sentry, etc.) needs stable mapping between bundles and `.map` files\n\n## \u26a0\ufe0f Concerns Worth Flagging\n\n- **Vercel Workflow queue latency**: 25-30\u00d7 overhead (4.5s queue vs 180ms execution) is a serious performance regression for anyone building multi-step workflows. Still open with no resolution posted. This could quietly erode trust in Vercel's workflow product.\n- **DEPLOYMENT_PAUSED breaking public services**: The github-profile-trophy 503 highlights a broader pattern \u2014 popular open-source tools hosted on Vercel's free tier get paused, breaking downstream users at scale with no self-service recovery path.\n- **Turbopack hash mismatch**: Intentional design decision in Turbopack (vercel/next.js#85471) that breaks third-party sourcemap tooling. This is a silent regression for anyone upgrading to Turbopack who relies on error monitoring.\n\n## Team Responsiveness\n\n- **Bugsnag CLI (#268)**: Closed \u2014 team acknowledged and fixed. Good responsiveness.\n- **Vercel Workflow (#1160)**: Open, 7 comments, no official fix or ETA posted. Concerning for a beta product.\n- **Vercel Chat RFC (#178)**: Open, 1 comment, tagged `enhancement`. Acknowledged but no roadmap signal.\n- **LobeHub (#12814)**: Open, 5 comments, labeled `priority:medium`. Under triage but unresolved.\n- **github-profile-trophy (#419)**: Open, 1 comment, no maintainer response. Likely abandoned/unfunded.\n\n## Must-Read Issues\n\n1. **[Workflow step queue times ~4-5s](https://github.com/vercel/workflow/issues/1160)** \u2014 Real perf data showing Vercel World queuing overhead dwarfing execution time\n2. **[Pluggable deployment adapters](https://github.com/cloudflare/vinext/issues/80)** \u2014 Clean articulation of the multi-provider deployment problem; signals where the ecosystem is heading\n3. **[Bugsnag CLI crash on Turbopack builds](https://github.com/bugsnag/bugsnag-cli/issues/268)** \u2014 Concrete example of Turbopack's sourcemap design breaking the tooling ecosystem\n4. **[Gateway/Transport Listener Adapter Interface](https://github.com/vercel/chat/issues/178)** \u2014 Exposes the serverless-vs-long-running tension in Vercel's own Chat SDK\n5. **[503 DEPLOYMENT_PAUSED](https://github.com/ryo-ma/github-profile-trophy/issues/419)** \u2014 Thousands of GitHub profiles affected; highlights free-tier reliability as a reputational risk",
+    "summary": "## Most Reported Bugs\n\n| Issue | Reactions | Summary |\n|-------|-----------|---------|\n| \ud83d\udd34 Pluggable deployment adapters (vinext) | \ud83d\udc4d 20 | Deploy pipeline hard-coded to Cloudflare Workers; no way to target Vercel/Netlify/custom without forking. **Borderline high priority.** |\n| Bugsnag CLI crash on Turbopack builds | \ud83d\udc4d 13 | `.map` files with mismatched hashes cause `open : no such file or directory` \u2014 blank filename made debugging on Vercel production very painful. (Closed/fixed) |\n| Disabled tools still in system prompt (LobeHub) | \ud83d\udc4d 9 | Disabled tools injected into prompt cause LLMs to invoke them anyway; deployed on Vercel. |\n| 503 DEPLOYMENT_PAUSED (github-profile-trophy) | \ud83d\udc4d 6 | Vercel deployment paused, breaking trophy images across thousands of GitHub READMEs. |\n\n## Most Requested Features\n\n- **Pluggable deployment adapters** \u2014 users want a provider-agnostic interface so `vinext deploy` can target Vercel, Netlify, generic Node, etc. (Issue 1)\n- **Gateway/Transport Listener Adapter Interface** (Vercel Chat SDK) \u2014 hardcoded transport layer incompatible with edge/serverless runtimes; users want an abstract listener interface supporting Vercel Edge Functions, Deno, Cloudflare Workers, etc. (Issue 5)\n\n## \u26a0\ufe0f Concerns Worth Flagging\n\n- **Vercel Workflow queue times (Issue 4):** Steps executing in ~170ms are sitting in queue for **4\u20135 seconds**. This is a 25\u00d7 overhead and a potential trust-eroding pattern for anyone building latency-sensitive workflows on Vercel World. Still open with no resolution.\n- **DEPLOYMENT_PAUSED breaking public services (Issue 6):** A widely-embedded open-source service went dark because Vercel paused the deployment. This highlights the fragility of free-tier Vercel hosting for community infrastructure \u2014 and there's no graceful degradation or warning.\n- **Turbopack hash mismatch (Issue 2):** Turbopack intentionally uses independent content hashes for bundles vs. sourcemaps, which broke third-party tooling. The blank filename in the error message suggests poor error handling downstream, but the root cause is a Turbopack design decision that wasn't widely communicated.\n\n## Team Responsiveness\n\n- **Vercel Workflow (Issue 4):** Open since Feb 22, 7 comments but no official fix or timeline \u2014 concerning for a beta product.\n- **Bugsnag CLI (Issue 2):** Closed/resolved relatively quickly.\n- **LobeHub (Issue 3):** Labeled and triaged as `priority:medium`, but still open.\n- **github-profile-trophy (Issue 6):** Only 1 comment, no resolution \u2014 likely owner-side, not Vercel's responsibility, but no Vercel outreach visible.\n\n## Must-Read Issues\n\n1. **[Workflow step queue times ~4-5s on Vercel World](https://github.com/vercel/workflow/issues/1160)** \u2014 Alarming latency overhead in Vercel's own workflow product.\n2. **[Pluggable deployment adapters for vinext](https://github.com/cloudflare/vinext/issues/80)** \u2014 Signals strong demand for platform-agnostic deploy tooling across Vercel, Cloudflare, Netlify.\n3. **[Bugsnag CLI crash on Turbopack builds](https://github.com/bugsnag/bugsnag-cli/issues/268)** \u2014 Illustrates real-world friction from Turbopack's sourcemap hash strategy.\n4. **[Gateway/Transport Listener Adapter Interface](https://github.com/vercel/chat/issues/178)** \u2014 Architectural gap in Vercel's Chat SDK blocking edge runtime adoption.\n5. **[503 DEPLOYMENT_PAUSED for github-profile-trophy](https://github.com/ryo-ma/github-profile-trophy/issues/419)** \u2014 Visible reminder that paused free-tier deployments can break widely-used public services.",
     "post_count": 6,
     "posts": [
       {
@@ -690,8 +690,8 @@
     ]
   },
   "twitter": {
-    "summary": "# Vercel X/Twitter Pulse \u2014 March 10\u201315, 2026\n\n## Key Themes\n\n- **Vercel as the default deploy layer in \"vibe coding\" stacks**: Dozens of posts list the same archetype stack (Claude/Cursor + Supabase + Vercel + Stripe). Vercel is now table-stakes shorthand for \"deploy.\"\n- **AI SDK & Chat SDK ecosystem explosion**: Adapters (Resend, iMessage, WhatsApp, LangChain), AI Elements, agent skills directory, and the AI Gateway are driving heavy developer activity.\n- **Agent Browser & agent tooling**: Vercel's agent-browser, sandbox, and CLI are being adopted for autonomous coding agents, E2E testing, and browser-based AI workflows.\n- **Ship 26 hype**: A flood of personalized suitcase promos and RSVPs for the upcoming Ship 26 event (London, June 17) dominate lower-engagement posts.\n- **Vercel as AI infrastructure company**: Notion choosing Vercel, the AI Accelerator, agent skills marketplace, and AI Gateway positioning Vercel beyond \"frontend hosting.\"\n\n## Overall Sentiment\n\n**Strongly positive.** Vercel is praised for developer experience, deployment speed, and its AI-forward product strategy. Negative posts are sparse and mostly about specific friction (long build times, billing surprises, downtime, function timeouts). Even competitors tip their hat. The community treats Vercel as an essential utility rather than a debatable choice.\n\n## Top Complaints & Issues\n\n- **27-minute build times** \u2014 @Sourabhsinr frustrated by a small push taking 27 min to build (#68)\n- **800-second function timeout insufficient for long-running agents** \u2014 @zaidmukaddam (#15)\n- **Unexpected billing/charges on free/pro tier** \u2014 @katezbuilds hit with charges deploying demos (#91); @kumar_ashish_sh surprised by default Pro settings consuming credits (#255)\n- **Deployment/downtime issues** \u2014 builds stuck initializing (#209), domains page down (#97), dxb1 region incident open 10+ days with no update (#246)\n- **Staging environments paywalled** \u2014 @ThisIsSingleton (#167)\n- **Referral credits not crediting** \u2014 @naprofileinthey (#114)\n- **Fastify on Vercel still unreliable** \u2014 @BareeSiebe (#82)\n- **Scam sites hosted on Vercel** \u2014 multiple abuse reports (#219, #281)\n\n## Top Praise\n\n- **Deployment speed & DX**: \"Deploy in seconds,\" \"zero config,\" \"the answer to all my prayers\" \u2014 repeated across dozens of posts.\n- **AI SDK / Chat SDK**: Called \"so well done,\" with rapid adapter ecosystem growth (iMessage, WhatsApp, Slack, Discord, Resend).\n- **Agent Browser**: Praised for enabling autonomous E2E testing and lightweight Rust-native browsing.\n- **Skills directory**: 1,200+ installs already; developers building and publishing skill packs.\n- **AI Gateway**: Easy model comparison, new xAI models, fast token throughput.\n- **Cloudflare comparison**: Vercel consistently preferred for ease of deployment vs. Cloudflare's complexity (#170, #277).\n\n## Viral Moments\n\n1. **\"EVERY TOOL VIBE-CODERS SHOULD KNOW\"** \u2014 @CodeEdison's list (\u2764\ufe0f543) cemented Vercel in the canonical vibe-coding stack.\n2. **Notion chooses Vercel** \u2014 @ivanhzhao (Notion CEO): \"The future of knowledge work is code. We chose Vercel.\" (\u2764\ufe0f183) \u2014 major enterprise signal.\n3. **Symphony agent closes 30 Linear tickets while dev sleeps** \u2014 @odysseus0z's thread about autonomous E2E testing with Vercel agent-browser (\u2764\ufe0f175) captured the agent-coding zeitgeist.\n4. **\"PaaS is dead\"** \u2014 @DennisonBertram's provocative post claiming to have killed Vercel/Railway/Firebase with a Hetzner server + agent (\u2764\ufe0f116) sparked debate.\n\n## Must-Read Posts\n\n1. **Notion \u00d7 Vercel** \u2014 Major partnership signal from Notion's CEO\n   [https://x.com/ivanhzhao/status/2032192313737285902](https://x.com/ivanhzhao/status/2032192313737285902)\n\n2. **Autonomous agent closes 30 tickets overnight using Vercel agent-browser** \u2014 Best showcase of agent-browser in the wild\n   [https://x.com/odysseus0z/status/2031225713190384036](https://x.com/odysseus0z/status/2031225713190384036)\n\n3. **Vercel observability at scale** \u2014 @tobiaslins on billions of datapoints/week, GB/s streams, <5s e2e latency\n   [https://x.com/tobiaslins/status/2032393122156589403](https://x.com/tobiaslins/status/2032393122156589403)\n\n4. **Trigger.dev Vercel integration launch** \u2014 Deploy tasks in sync with app deploys, env vars synced both ways\n   [https://x.com/triggerdotdev/status/2032148518593577418](https://x.com/triggerdotdev/status/2032148518593577418)\n\n5. **\"PaaS is dead\" provocation** \u2014 Agent-deployed infrastructure on bare metal as a Vercel alternative\n   [https://x.com/DennisonBertram/status/2031497685325205818](https://x.com/DennisonBertram/status/2031497685325205818)",
-    "post_count": 299,
+    "summary": "# Vercel Twitter Pulse \u2014 March 8\u201315, 2026\n\n## Key Themes\n\n- **\"Solo SaaS Stack\" Lists Dominate**: Vercel is a near-universal fixture in the \"everything you need to build alone\" tweet format, consistently slotted as the deploy/hosting layer alongside Supabase, Stripe, Claude, and Cursor. (Posts 1, 2, 5, 6, 11, 21, 35, 37, 73, 102, 114, 150)\n- **AI SDK & Chat SDK Ecosystem Expanding**: Resend adapter, LangChain integration, Stagehand tool, Photon iMessage adapter, WhatsApp adapter \u2014 the Chat SDK is becoming a platform with a growing third-party ecosystem. (Posts 4, 36, 40, 52, 80, 100, 104, 123)\n- **Agent Infrastructure Play**: Vercel's agent-browser, AI Gateway, CLI, and sandbox are being adopted by agent builders, security researchers, and coding-agent platforms. Multiple posts frame Vercel as *the* agent deployment layer. (Posts 9, 30, 31, 48, 49, 57, 67, 98, 131)\n- **Vercel Ship 26 Hype**: London (June 17) and SF builder day generating buzz; suitcase customizer and three.js globe teasers circulating. (Posts 15, 20, 32, 43, 58, 63, 71, 101, 119, 125)\n- **Vibe Coding Movement**: Vercel is name-dropped as essential infrastructure in the emerging \"vibe coding\" meme \u2014 prompt-driven, AI-first development. (Posts 1, 5, 28, 29, 99, 113)\n- **Enterprise & Partnership Signals**: Notion choosing Vercel (Post 7), SaaStr Diamond sponsor (Post 88), Techweek 2026 sponsor (Post 41), Trigger.dev integration (Post 12), Nuxt acquisition/hire (Post 24).\n\n## Overall Sentiment\n\n**Strongly positive**, bordering on ecosystem-default status. Vercel is treated as settled infrastructure \u2014 the \"obvious\" deploy choice \u2014 rather than a debated option. Criticism exists but is low-volume and specific (pricing, feature gaps, downtime). The most energized praise centers on developer experience, the AI SDK ecosystem, and agent tooling.\n\n## Top Complaints & Issues\n\n- **Pricing/access control gaps**: Pro plan lacks project-level access control; team forced to consider Netlify or Enterprise tier at $300+/mo (Post 85). Unexpected charges on free tier (Post 122).\n- **Deployment pain**: 27-minute build times (Post 96), deployment failures (Posts 118, 128), referral credits not crediting (Post 148).\n- **Function timeout limits**: 800-second cap insufficient for long-running agents (Post 18).\n- **UI/UX regression**: New navigation UI called \"too confusing\" vs. the old straightforward design (Post 139).\n- **Feature requests**: Multi-GitHub account linking still missing after 100+ days of asking (Post 62). Fastify on Vercel described as error-riddled (Post 111). Flags SDK site reported broken (Post 107).\n- **Competitive pressure**: Cloudflare visible at SXSW while Vercel absent (Post 51). Vite/oxstack called \"a worthy opponent\" (Post 147). One dev claims to have \"killed\" Vercel with a self-hosted Hetzner agent setup (Post 14).\n\n## Top Praise\n\n- **Agent browser**: Called \"so good\" \u2014 autonomous AI closed 30 Linear tickets with net 7,000 LOC deleted overnight (Post 9). Inspired Rust-based forks and meta-search tools (Posts 67, 98).\n- **AI Gateway**: Praised for easy model comparison and fast token throughput (Posts 65, 97).\n- **Developer experience**: \"Vercel is really owning the developer experience when building AI applications\" (Post 49). Deployment described as effortless and the platform as \"irreplaceable in my stack\" (Post 99).\n- **Chat SDK**: Rapidly becoming a multi-platform agent backbone \u2014 iMessage, WhatsApp, Slack, Discord adapters all shipping (Posts 4, 80, 104, 123).\n- **Observability at scale**: Insider post on handling billions of datapoints/week at GB/s with <5s e2e latency (Post 16).\n- **Notion partnership**: \"The future of knowledge work is code. We chose Vercel.\" \u2014 Notion CEO (Post 7).\n\n## Viral Moments\n\n- **543 \u2764\ufe0f** \u2014 \"Every tool vibe-coders should know\" list with Vercel as hosting pick (Post 1)\n- **300 \u2764\ufe0f** \u2014 \"Forget hiring a team\" solo SaaS stack (Post 2)\n- **269 \u2764\ufe0f** \u2014 Vercel employee on treating meetings like products (Post 3)\n- **211 \u2764\ufe0f** \u2014 Resend Chat SDK adapter launch (Post 4)\n- **188 \u2764\ufe0f** \u2014 \"Build your first SaaS\" stack list (Post 6)\n- **183 \u2764\ufe0f** \u2014 Notion CEO endorsement (Post 7)\n- **175 \u2764\ufe0f** \u2014 Agent autonomously closes 30 tickets using Vercel's agent browser (Post 9)\n\n## Must-Read Posts\n\n1. **Notion CEO endorsement** \u2014 Ivan Zhao publicly commits Notion to Vercel. Brief, high-signal, high-impact.\n   \u2192 https://x.com/ivanhzhao/status/2032192313737285902\n\n2. **Agent browser autonomy story** \u2014 An AI agent used Vercel's agent-browser to E2E test, screenshot, and close 30 Linear tickets overnight with a net 7,000 LOC deletion. The \"it works while I sleep\" moment.\n   \u2192 https://x.com/odysseus0z/status/2031225713190384036\n\n3. **Observability at Vercel scale** \u2014 Insider look at building pipelines handling billions of datapoints/week at GB/s with <5s latency. Rare engineering depth from the inside.\n   \u2192 https://x.com/tobiaslins/status/2032393122156589403\n\n4. **\"PaaS is dead\" provocation** \u2014 Developer claims to have replaced Vercel, Railway, and Firebase with a Hetzner server + agent-driven deploy. Contrarian take that names the competitive anxiety directly.\n   \u2192 https://x.com/DennisonBertram/status/2031497685325205818\n\n5. **Long-running agents limitation** \u2014 \"How does one build and deploy long running agents on Vercel? The 800-second function timeout doesn't seem to help.\" \u2014 Concise, widely-felt pain point as agent workloads grow.\n   \u2192 https://x.com/zaidmukaddam/status/2032256118299509022",
+    "post_count": 366,
     "posts": [
       {
         "source": "twitter",
@@ -703,6 +703,17 @@
         "url": "https://x.com/CodeEdison/status/2032491820752515518",
         "date": "2026-03-13",
         "username": "CodeEdison"
+      },
+      {
+        "source": "twitter",
+        "title": "Forget hiring a team.\n\nHere's what you need to run a full SaaS solo:\n\n- n8n \u2014 automation\n- Supabase \u2014 backend\n- Cursor \u2014",
+        "score": 300,
+        "likes": 300,
+        "retweets": 43,
+        "num_comments": 31,
+        "url": "https://x.com/s_mohinii/status/2030703901406814394",
+        "date": "2026-03-08",
+        "username": "s_mohinii"
       },
       {
         "source": "twitter",
@@ -725,6 +736,17 @@
         "url": "https://x.com/resend/status/2031374674442203369",
         "date": "2026-03-10",
         "username": "resend"
+      },
+      {
+        "source": "twitter",
+        "title": "Vibe-coding tools you should know about\n\n\u2022 @claudeai - AI for coding + debugging\n\u2022 @cursor_ai - AI code editor\n\u2022 @Replit",
+        "score": 162,
+        "likes": 162,
+        "retweets": 39,
+        "num_comments": 9,
+        "url": "https://x.com/crypto_Aaaminah/status/2031005972747952179",
+        "date": "2026-03-09",
+        "username": "crypto_Aaaminah"
       },
       {
         "source": "twitter",
@@ -827,6 +849,17 @@
       },
       {
         "source": "twitter",
+        "title": "Warming up for @vercel Ship, we created this small experience using @threejs \n\nTo detect pointer events, we used a separ",
+        "score": 115,
+        "likes": 115,
+        "retweets": 3,
+        "num_comments": 9,
+        "url": "https://x.com/matiNotFound/status/2031109070803837277",
+        "date": "2026-03-09",
+        "username": "matiNotFound"
+      },
+      {
+        "source": "twitter",
         "title": "I love building observability pipelines\n\nAt @vercel scale completely new problems arise compared to our 1B events/month ",
         "score": 113,
         "likes": 113,
@@ -893,6 +926,28 @@
       },
       {
         "source": "twitter",
+        "title": "Add GitHub to your AI agent in 2 lines of code\n\nJust built @\ud835\uddc0\ud835\uddc2\ud835\uddcd\ud835\uddc1\ud835\uddce\ud835\uddbb-\ud835\uddcd\ud835\uddc8\ud835\uddc8\ud835\uddc5\ud835\uddcc/\ud835\uddcc\ud835\uddbd\ud835\uddc4 for the @vercel @aisdk\n\nWhat you get:\n\u2022 21 ",
+        "score": 78,
+        "likes": 78,
+        "retweets": 4,
+        "num_comments": 1,
+        "url": "https://x.com/hugorcd/status/2031096693861781961",
+        "date": "2026-03-09",
+        "username": "hugorcd"
+      },
+      {
+        "source": "twitter",
+        "title": "Free tools every Nigerian dev sleeps on:\n\n\u2013 Vercel \u2014 deploy in 30 seconds, free tier is enough to start\n\u2013 Railway \u2014 back",
+        "score": 57,
+        "likes": 57,
+        "retweets": 12,
+        "num_comments": 1,
+        "url": "https://x.com/smartnakamoura/status/2033082576915616155",
+        "date": "2026-03-15",
+        "username": "smartnakamoura"
+      },
+      {
+        "source": "twitter",
         "title": "1. @nuxtlabs created @nuxt_hub based on cloudflare to sustain their OSS contribution towards @nuxt_js\n\n2. @vercel bought",
         "score": 77,
         "likes": 77,
@@ -904,17 +959,6 @@
       },
       {
         "source": "twitter",
-        "title": "Free tools every Nigerian dev sleeps on:\n\n\u2013 Vercel \u2014 deploy in 30 seconds, free tier is enough to start\n\u2013 Railway \u2014 back",
-        "score": 52,
-        "likes": 52,
-        "retweets": 12,
-        "num_comments": 1,
-        "url": "https://x.com/smartnakamoura/status/2033082576915616155",
-        "date": "2026-03-15",
-        "username": "smartnakamoura"
-      },
-      {
-        "source": "twitter",
         "title": "We benchmarked our new rendering spec against @vercel json-render.\n3\u00d7 faster rendering. 67% fewer tokens. Far more relia",
         "score": 64,
         "likes": 64,
@@ -923,6 +967,28 @@
         "url": "https://x.com/thesysdev/status/2031747795397267787",
         "date": "2026-03-11",
         "username": "thesysdev"
+      },
+      {
+        "source": "twitter",
+        "title": "Last week at @vercel...\n* You can update routing rules without redeployment\n* Vercel Workflow performance has a 54% medi",
+        "score": 54,
+        "likes": 54,
+        "retweets": 7,
+        "num_comments": 2,
+        "url": "https://x.com/AmyAEgan/status/2031148851860525425",
+        "date": "2026-03-09",
+        "username": "AmyAEgan"
+      },
+      {
+        "source": "twitter",
+        "title": "Forget hiring a team.  \nHere's what you need to run a full SaaS solo:\n- n8n automation connect apps &amp; automate workf",
+        "score": 54,
+        "likes": 54,
+        "retweets": 5,
+        "num_comments": 18,
+        "url": "https://x.com/hiarun02/status/2030939148803244085",
+        "date": "2026-03-09",
+        "username": "hiarun02"
       },
       {
         "source": "twitter",
@@ -945,6 +1011,17 @@
         "url": "https://x.com/jsmasterypro/status/2032002109952905500",
         "date": "2026-03-12",
         "username": "jsmasterypro"
+      },
+      {
+        "source": "twitter",
+        "title": "The best coding agents don\u2019t just write code, they ship it \ud83d\ude80\n\nAll OB-1 sessions now include the @Vercel CLI as a preload",
+        "score": 46,
+        "likes": 46,
+        "retweets": 6,
+        "num_comments": 7,
+        "url": "https://x.com/openblocklabs/status/2031096799432421642",
+        "date": "2026-03-09",
+        "username": "openblocklabs"
       },
       {
         "source": "twitter",
@@ -978,6 +1055,17 @@
         "url": "https://x.com/arlanr/status/2032245417480765830",
         "date": "2026-03-13",
         "username": "arlanr"
+      },
+      {
+        "source": "twitter",
+        "title": "do i know anyone at @vercel that can help me speed up a domain transfer? already approved transfer from the other regist",
+        "score": 36,
+        "likes": 36,
+        "retweets": 0,
+        "num_comments": 2,
+        "url": "https://x.com/codewithantonio/status/2031088721269755987",
+        "date": "2026-03-09",
+        "username": "codewithantonio"
       },
       {
         "source": "twitter",
@@ -1069,6 +1157,39 @@
       },
       {
         "source": "twitter",
+        "title": "Save the date, June 17th! @Vercel Ship is coming to London.\n\nhttps://t.co/Dw8Cut4c0a",
+        "score": 20,
+        "likes": 20,
+        "retweets": 2,
+        "num_comments": 2,
+        "url": "https://x.com/BurnedChris/status/2031088674050281503",
+        "date": "2026-03-09",
+        "username": "BurnedChris"
+      },
+      {
+        "source": "twitter",
+        "title": "Another \"dream job\" I applied for, here at @vercel. Hope you guys notice meeeee!!! \ud83d\ude4f\n\nhttps://t.co/KILNAwnm9G",
+        "score": 22,
+        "likes": 22,
+        "retweets": 1,
+        "num_comments": 2,
+        "url": "https://x.com/AIandDesign/status/2030915032155046268",
+        "date": "2026-03-09",
+        "username": "AIandDesign"
+      },
+      {
+        "source": "twitter",
+        "title": "My startup @InsForge_dev is launching tomorrow\n\nSo I built this with @Remotion in &lt;1 hour\n\nYour all-in-one backend fo",
+        "score": 22,
+        "likes": 22,
+        "retweets": 1,
+        "num_comments": 4,
+        "url": "https://x.com/hanghuang_/status/2030803611328876772",
+        "date": "2026-03-09",
+        "username": "hanghuang_"
+      },
+      {
+        "source": "twitter",
         "title": "AI-native dev is changing how fast you can ship.\n\nFor today's @vercel community session, we're hosting a live session on",
         "score": 15,
         "likes": 15,
@@ -1077,6 +1198,17 @@
         "url": "https://x.com/paw_lean/status/2031363946184143318",
         "date": "2026-03-10",
         "username": "paw_lean"
+      },
+      {
+        "source": "twitter",
+        "title": "Modern software is being built faster than ever.\n\nAI is compressing the gap between idea \u2192 product.\n\nOne company sits ri",
+        "score": 19,
+        "likes": 19,
+        "retweets": 2,
+        "num_comments": 0,
+        "url": "https://x.com/wlthxyz/status/2031022300582359108",
+        "date": "2026-03-09",
+        "username": "wlthxyz"
       },
       {
         "source": "twitter",
@@ -1102,146 +1234,14 @@
       },
       {
         "source": "twitter",
-        "title": "Wow @Cloudflare brought the heavy hitters at SXSW, meanwhile not a single @vercel shill in sight! https://t.co/s2Kbi8xjO",
-        "score": 18,
-        "likes": 18,
-        "retweets": 1,
-        "num_comments": 2,
-        "url": "https://x.com/sunglassesface/status/2032897757988450354",
-        "date": "2026-03-14",
-        "username": "sunglassesface"
-      },
-      {
-        "source": "twitter",
-        "title": "Build your agent UI the way YOU like\u203c\ufe0f\nConnect it to any component library \ud83d\udce6 or bring your own components \ud83d\ude80\n\nHere an exa",
-        "score": 14,
-        "likes": 14,
-        "retweets": 3,
-        "num_comments": 2,
-        "url": "https://x.com/bromann/status/2032488137461731723",
-        "date": "2026-03-13",
-        "username": "bromann"
-      },
-      {
-        "source": "twitter",
-        "title": "this is all you need to setup a Claude Code, Codex, or OpenCode in the cloud and connect it to telegram for free\n\n@verce",
-        "score": 14,
-        "likes": 14,
-        "retweets": 3,
-        "num_comments": 0,
-        "url": "https://x.com/0xMoe_/status/2031925191199064287",
-        "date": "2026-03-12",
-        "username": "0xMoe_"
-      },
-      {
-        "source": "twitter",
-        "title": "sharing some details on how @reforge  Build uses @vercel  &amp; @modal  sandboxes for prototyping.\n\nty @paper mcp for di",
-        "score": 20,
-        "likes": 20,
-        "retweets": 0,
-        "num_comments": 2,
-        "url": "https://x.com/hadasie/status/2031168105398059465",
-        "date": "2026-03-10",
-        "username": "hadasie"
-      },
-      {
-        "source": "twitter",
-        "title": "If we\u2019re going to build great developer tools, we\u2019re going to use the tools that inspire us! @vercel is an exceptional p",
-        "score": 15,
-        "likes": 15,
-        "retweets": 2,
-        "num_comments": 2,
-        "url": "https://x.com/goldmanem/status/2032217136886936031",
-        "date": "2026-03-12",
-        "username": "goldmanem"
-      },
-      {
-        "source": "twitter",
-        "title": "the best agent wranglers are @vercel",
+        "title": "GM GM guys,  I just revamped my portfolio and hosted on @pxxl_space  check both portfolios out. Old one's hosted on @ver",
         "score": 17,
         "likes": 17,
-        "retweets": 0,
-        "num_comments": 2,
-        "url": "https://x.com/gaspargarcia_/status/2031841403559661734",
-        "date": "2026-03-11",
-        "username": "gaspargarcia_"
-      },
-      {
-        "source": "twitter",
-        "title": "You can just ship things by @Trae_ai x @vercel \n \nExcited to go live on Vercel Community later.\n\nhttps://t.co/MFRbygj5hl",
-        "score": 14,
-        "likes": 14,
-        "retweets": 1,
-        "num_comments": 1,
-        "url": "https://x.com/gary_qz/status/2031283919111213299",
-        "date": "2026-03-10",
-        "username": "gary_qz"
-      },
-      {
-        "source": "twitter",
-        "title": "xAI just released new models on @vercel ai gateway. stoked to try it!\n\n344 tokens per seconds looks nutz https://t.co/SC",
-        "score": 12,
-        "likes": 12,
-        "retweets": 1,
-        "num_comments": 3,
-        "url": "https://x.com/gajesh/status/2033023547757748620",
-        "date": "2026-03-15",
-        "username": "gajesh"
-      },
-      {
-        "source": "twitter",
-        "title": "Charging money to CANCEL a subscription is the darkest thing digital software can do.\n\nEvery other platform gives you ac",
-        "score": 14,
-        "likes": 14,
-        "retweets": 0,
-        "num_comments": 12,
-        "url": "https://x.com/mdnlabs/status/2033014779736965181",
-        "date": "2026-03-15",
-        "username": "mdnlabs"
-      },
-      {
-        "source": "twitter",
-        "title": "I use Playwright for everything in my security scanner.\n\nProblem: it eats RAM and burns tokens.\n\n@vercel  agent-browser ",
-        "score": 12,
-        "likes": 12,
-        "retweets": 1,
-        "num_comments": 4,
-        "url": "https://x.com/makash/status/2031432460404449442",
-        "date": "2026-03-10",
-        "username": "makash"
-      },
-      {
-        "source": "twitter",
-        "title": "Meet @sokra, Creator of Webpack and Turbopack, now building the future of tooling at @vercel\n\nA core force behind modern",
-        "score": 9,
-        "likes": 9,
         "retweets": 2,
-        "num_comments": 0,
-        "url": "https://x.com/thejsnation/status/2032049363560575087",
-        "date": "2026-03-12",
-        "username": "thejsnation"
-      },
-      {
-        "source": "twitter",
-        "title": "Making Vercel serverless to a persistent server\nWish me luck \ud83e\udd1e.\n\nFor more info;\nvisit my GitHub Repo:\nhttps://t.co/hwTJY",
-        "score": 5,
-        "likes": 5,
-        "retweets": 3,
-        "num_comments": 0,
-        "url": "https://x.com/firekid_dev/status/2032719104784699656",
-        "date": "2026-03-14",
-        "username": "firekid_dev"
-      },
-      {
-        "source": "twitter",
-        "title": "I used to work on Agent Based Learning Partners and also served as an Instructional Technology Fellow. A lot has happene",
-        "score": 4,
-        "likes": 4,
-        "retweets": 3,
-        "num_comments": 0,
-        "url": "https://x.com/IlknurIcke/status/2032985120810893359",
-        "date": "2026-03-15",
-        "username": "IlknurIcke"
+        "num_comments": 3,
+        "url": "https://x.com/CodeWKnowledge/status/2030919724242989169",
+        "date": "2026-03-09",
+        "username": "CodeWKnowledge"
       }
     ]
   }
