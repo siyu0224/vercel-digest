@@ -411,7 +411,7 @@
         <p id="twitter-header-meta">Loading…</p>
       </div>
       <div class="source-note">
-        <strong>What we search for:</strong> Tweets mentioning <code>@vercel</code> or platform-specific terms like <code>"vercel deploy"</code>, <code>"vercel pricing"</code>, <code>"vercel billing"</code>, <code>"vercel down"</code>, <code>"vercel vs"</code>, etc. — original posts only (no retweets or replies), English language, past 7 days. Excludes generic <code>.vercel.app</code> URL noise. Up to 300 results per run.
+        <strong>What we search for:</strong> Tweets mentioning <code>@vercel</code> or platform-specific terms like <code>"vercel deploy"</code>, <code>"vercel pricing"</code>, <code>"vercel billing"</code>, <code>"vercel down"</code>, <code>"vercel vs"</code>, etc. — original posts only (no retweets or replies), English language, past 7 days. Excludes generic <code>.vercel.app</code> URL noise. We also fetch the <strong>top reply threads</strong> for the 25 highest-engagement tweets (likes ≥ 50), sorted by likes — with replies from accounts with 10k+ followers flagged as notable voices.
       </div>
       <div id="twitter-content"><p class="loading">Loading…</p></div>
     </div>
@@ -422,7 +422,7 @@
         <p id="reddit-header-meta">Loading…</p>
       </div>
       <div class="source-note">
-        <strong>What we search for:</strong> Posts containing <code>vercel</code> across <code>r/vercel</code>, <code>r/nextjs</code>, <code>r/webdev</code>, <code>r/javascript</code>, <code>r/reactjs</code>, <code>r/node</code>, <code>r/devops</code>, and <code>r/programming</code>. For focused subs (vercel, nextjs) any mention counts; for broader subs, <code>vercel</code> must appear in the post title. Sorted by upvotes, past month.
+        <strong>What we search for:</strong> Posts containing <code>vercel</code> across <code>r/vercel</code>, <code>r/nextjs</code>, <code>r/webdev</code>, <code>r/javascript</code>, <code>r/reactjs</code>, <code>r/node</code>, <code>r/devops</code>, and <code>r/programming</code>. For focused subs (vercel, nextjs) any mention counts; for broader subs, <code>vercel</code> must appear in the post title. Sorted by upvotes, past month. We also fetch the <strong>top 10 community comments</strong> per post (sorted by upvotes) to surface the real discussion beneath each thread.
       </div>
       <div id="reddit-content"><p class="loading">Loading…</p></div>
     </div>
@@ -444,7 +444,7 @@
         <p id="hn-header-meta">Loading…</p>
       </div>
       <div class="source-note">
-        <strong>What we search for:</strong> Stories with <code>vercel</code> in the title — including outage reports, pricing discussions, competitor comparisons, and product launches. Minimum 5 points. Past month via the HN Algolia API.
+        <strong>What we search for:</strong> Stories with <code>vercel</code> in the title — including outage reports, pricing discussions, competitor comparisons, and product launches. Minimum 5 points. Past month via the HN Algolia API. We also fetch the <strong>top 10 community comments</strong> per story (including nested replies up to 2 levels deep) to capture the actual technical debate.
       </div>
       <div id="hn-content"><p class="loading">Loading…</p></div>
     </div>
