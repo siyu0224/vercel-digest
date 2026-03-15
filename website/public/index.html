@@ -46,12 +46,26 @@
       line-height: 1.3;
     }
 
-    .sidebar-brand h1 span { color: #fff; }
+    .sidebar-brand h1 span { color: #f06a20; }
 
     .sidebar-brand p {
       font-size: 0.72rem;
       color: #555;
       margin-top: 0.3rem;
+    }
+
+    .cadence-badge {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #f06a20;
+      background: #2a1500;
+      border: 1px solid #3a2000;
+      border-radius: 3px;
+      padding: 0.1rem 0.45rem;
+      margin-top: 0.4rem;
     }
 
     .nav-label {
@@ -79,7 +93,7 @@
     .nav-item:hover { background: #161616; color: #ccc; }
 
     .nav-item.active {
-      border-left-color: #fff;
+      border-left-color: #f06a20;
       color: #fff;
       background: #161616;
     }
@@ -164,12 +178,12 @@
       content: '–';
       position: absolute;
       left: 0;
-      color: #fff;
+      color: #f06a20;
     }
 
     .content strong { color: #e8e8e8; font-weight: 500; }
-    .content a { color: #fff; text-decoration: none; border-bottom: 1px solid #333; }
-    .content a:hover { border-bottom-color: #fff; }
+    .content a { color: #f06a20; text-decoration: none; border-bottom: 1px solid #5a2a0a; }
+    .content a:hover { border-bottom-color: #f06a20; }
 
     /* ── Must-read cards ── */
     .mustreads { margin-top: 2rem; }
@@ -186,7 +200,7 @@
     .mustread-card {
       background: #141414;
       border: 1px solid #222;
-      border-left: 3px solid #fff;
+      border-left: 3px solid #f06a20;
       border-radius: 6px;
       padding: 0.85rem 1rem;
       margin-bottom: 0.55rem;
@@ -241,7 +255,7 @@
     .post-score {
       font-size: 0.76rem;
       font-weight: 700;
-      color: #fff;
+      color: #f06a20;
       text-align: right;
     }
 
@@ -279,6 +293,43 @@
     .source-note strong { color: #999; }
     .source-note code { color: #aaa; font-size: 0.78rem; }
 
+    /* ── Executive summary ── */
+    .exec-summary {
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      border-left: 4px solid #f06a20;
+      border-radius: 6px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .exec-summary h3 {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #f06a20;
+      margin-bottom: 0.6rem;
+    }
+    .exec-summary ul { list-style: none; }
+    .exec-summary li {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: #666;
+      padding-left: 1.1rem;
+      position: relative;
+      margin-bottom: 0.4rem;
+    }
+    .exec-summary li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: #f06a20;
+    }
+    .exec-summary li strong {
+      color: #e8e8e8;
+      font-weight: 600;
+    }
+
     /* ── Loading / error ── */
     .loading {
       color: #555;
@@ -303,7 +354,7 @@
       .sidebar-brand { padding: 0 0 0.8rem; border-bottom: none; margin-bottom: 0; width: 100%; }
       .nav-label { display: none; }
       .nav-item { border-left: none; border-bottom: 2px solid transparent; padding: 0.5rem 0.8rem; }
-      .nav-item.active { border-left: none; border-bottom-color: #fff; }
+      .nav-item.active { border-left: none; border-bottom-color: #f06a20; }
       .sidebar-footer { display: none; }
       .main { padding: 1.5rem 1.2rem; }
     }
@@ -317,6 +368,7 @@
     <div class="sidebar-brand">
       <h1>Vercel <span>Digest</span></h1>
       <p id="sidebar-meta">Loading…</p>
+      <div class="cadence-badge">Weekly · Past Month</div>
     </div>
     <p class="nav-label">Sources</p>
     <div class="nav-item active" data-tab="overview">
@@ -348,6 +400,7 @@
       <div class="page-header">
         <h2>Overview</h2>
         <p id="overview-header-meta">Combined signals from X, Reddit, GitHub &amp; HN</p>
+        <p style="font-size:0.75rem;color:#444;margin-top:0.4rem">Updated every Monday — surfaces the past month of developer discussions across all sources.</p>
       </div>
       <div id="overview-content"><p class="loading">Loading…</p></div>
     </div>
@@ -368,6 +421,9 @@
         <h2>Reddit</h2>
         <p id="reddit-header-meta">Loading…</p>
       </div>
+      <div class="source-note">
+        <strong>What we search for:</strong> Posts containing <code>vercel</code> across <code>r/vercel</code>, <code>r/nextjs</code>, <code>r/webdev</code>, <code>r/javascript</code>, <code>r/reactjs</code>, <code>r/node</code>, <code>r/devops</code>, and <code>r/programming</code>. For focused subs (vercel, nextjs) any mention counts; for broader subs, <code>vercel</code> must appear in the post title. Sorted by upvotes, past month.
+      </div>
       <div id="reddit-content"><p class="loading">Loading…</p></div>
     </div>
 
@@ -377,7 +433,7 @@
         <p id="gh-header-meta">Loading…</p>
       </div>
       <div class="source-note">
-        <strong>Sources:</strong> <code>vercel/next.js</code> (the main Next.js repo) and broader GitHub search for Vercel deployment issues.
+        <strong>Sources:</strong> <code>vercel/next.js</code>, <code>vercel/vercel</code>, and other repos in the Vercel org — issues with meaningful community reaction (3+ 👍), bugs only.
       </div>
       <div id="gh-content"><p class="loading">Loading…</p></div>
     </div>
@@ -386,6 +442,9 @@
       <div class="page-header">
         <h2>Hacker News</h2>
         <p id="hn-header-meta">Loading…</p>
+      </div>
+      <div class="source-note">
+        <strong>What we search for:</strong> Stories with <code>vercel</code> in the title — including outage reports, pricing discussions, competitor comparisons, and product launches. Minimum 5 points. Past month via the HN Algolia API.
       </div>
       <div id="hn-content"><p class="loading">Loading…</p></div>
     </div>
@@ -468,12 +527,24 @@
     return items;
   }
 
-  function renderSummary(summaryMd) {
+  function renderSummary(summaryMd, showExec) {
     const sections = parseSections(summaryMd);
+    let execHtml = '';
     let html = '';
     let mustreadsHtml = '';
 
     for (const sec of sections) {
+      if (showExec && /executive summary/i.test(sec.heading)) {
+        const bullets = sec.lines
+          .filter(l => l.match(/^[-*]\s/))
+          .map(l => l.replace(/^[-*]\s*/, '').trim())
+          .filter(Boolean);
+        execHtml = `<div class="exec-summary">
+          <h3>Executive Summary</h3>
+          <ul>${bullets.map(b => `<li>${inline(b)}</li>`).join('')}</ul>
+        </div>`;
+        continue;
+      }
       if (isMustRead(sec.heading)) {
         const items = parseMustReads(sec.lines);
         if (items.length) {
@@ -492,7 +563,7 @@
       html += `<h2${hStyle}>${sec.heading}</h2>${renderLines(sec.lines)}`;
     }
 
-    return `<div class="content">${html}</div>${mustreadsHtml}`;
+    return `${execHtml}<div class="content">${html}</div>${mustreadsHtml}`;
   }
 
   function renderPosts(posts, label) {
@@ -500,8 +571,9 @@
     const rows = posts.map(p => {
       const meta = p.subreddit ? `r/${p.subreddit}` : p.date;
       const url  = p.hn_url || p.url;
+      const icon = p.subreddit ? '⬆' : '▲';
       return `<div class="post-row">
-        <div class="post-score">${p.score}</div>
+        <div class="post-score">${icon}${p.score}</div>
         <a class="post-title" href="${url}" target="_blank" rel="noopener">${p.title}</a>
         <div class="post-meta">${meta}</div>
       </div>`;
@@ -569,9 +641,9 @@
       const totalCount = (d.overview?.twitter_count ?? 0) + (d.overview?.reddit_count ?? 0) +
         (d.overview?.gh_count ?? 0) + (d.overview?.hn_count ?? 0);
       document.getElementById('overview-header-meta').textContent =
-        `${totalCount} posts across X, Reddit, GitHub & HN · past ${d.time_filter}`;
+        `${totalCount} posts · X (past 7 days) · Reddit, GitHub & HN (past ${d.time_filter})`;
       document.getElementById('overview-content').innerHTML =
-        renderSummary(d.overview?.summary || '') +
+        renderSummary(d.overview?.summary || '', true) +
         renderPosts([
           ...(d.twitter?.posts || []).slice(0, 2),
           ...(d.reddit?.posts  || []).slice(0, 2),
@@ -583,28 +655,28 @@
       document.getElementById('twitter-header-meta').textContent =
         `${d.twitter?.post_count ?? 0} tweets · past 7 days`;
       document.getElementById('twitter-content').innerHTML =
-        renderSummary(d.twitter?.summary || '') +
+        renderSummary(d.twitter?.summary || '', false) +
         renderTwitterPosts(d.twitter?.posts || []);
 
       // Reddit
       document.getElementById('reddit-header-meta').textContent =
         `${d.reddit?.post_count ?? 0} posts · past ${d.time_filter}`;
       document.getElementById('reddit-content').innerHTML =
-        renderSummary(d.reddit?.summary || '') +
+        renderSummary(d.reddit?.summary || '', false) +
         renderPosts(d.reddit?.posts || [], 'Discussions');
 
       // GitHub
       document.getElementById('gh-header-meta').textContent =
         `${d.github?.post_count ?? 0} issues · vercel/next.js · past ${d.time_filter}`;
       document.getElementById('gh-content').innerHTML =
-        renderSummary(d.github?.summary || '') +
+        renderSummary(d.github?.summary || '', false) +
         renderGhPosts(d.github?.posts || []);
 
       // HN
       document.getElementById('hn-header-meta').textContent =
         `${d.hn?.post_count ?? 0} stories · past ${d.time_filter}`;
       document.getElementById('hn-content').innerHTML =
-        renderSummary(d.hn?.summary || '') +
+        renderSummary(d.hn?.summary || '', false) +
         renderPosts(d.hn?.posts || [], 'Stories');
 
     } catch (e) {

@@ -33,7 +33,9 @@ def github_fetch(time_filter="month", limit=30):
 
     queries = [
         f"repo:vercel/next.js is:issue created:>{since} reactions:>3",
-        f"vercel deployment is:issue created:>{since} reactions:>5",
+        # org:vercel but exclude AI SDK (separate product, different audience)
+        f"org:vercel is:issue created:>{since} reactions:>3 -repo:vercel/ai",
+        f'"deploy to vercel" OR "vercel build" OR "vercel deploy" is:issue created:>{since} reactions:>8',
     ]
 
     all_issues, seen = [], set()
@@ -85,12 +87,13 @@ def github_extract(issue):
 
 # ── Reddit ────────────────────────────────────────────────────────────────────
 
-SUBREDDITS = [
-    "vercel", "nextjs", "webdev", "javascript",
-    "reactjs", "node", "devops", "programming",
-]
+# Subreddits focused on Vercel — title-only match is enough
+VERCEL_FOCUSED_SUBS = {"vercel", "nextjs"}
+# Broad subreddits — require "vercel" in the title to avoid tangential mentions
+BROAD_SUBREDDITS = ["webdev", "javascript", "reactjs", "node", "devops", "programming"]
+SUBREDDITS = list(VERCEL_FOCUSED_SUBS) + BROAD_SUBREDDITS
 
-def reddit_fetch(time_filter="month", posts_per_sub=10):
+def reddit_fetch(time_filter="month", posts_per_sub=20):
     all_posts, seen = [], set()
     for sub in SUBREDDITS:
         url = f"https://www.reddit.com/r/{sub}/search.json"
@@ -111,10 +114,16 @@ def reddit_fetch(time_filter="month", posts_per_sub=10):
         time.sleep(1)
 
     def is_vercel(p):
-        text = (p.get("title", "") + " " + p.get("selftext", "")).lower()
-        return any(kw in text for kw in VERCEL_KEYWORDS)
+        title = p.get("title", "").lower()
+        body = p.get("selftext", "").lower()
+        sub = p.get("subreddit", "").lower()
+        # For focused subs, any mention is fine; for broad subs require it in the title
+        if sub in VERCEL_FOCUSED_SUBS:
+            return any(kw in (title + " " + body) for kw in VERCEL_KEYWORDS)
+        else:
+            return any(kw in title for kw in VERCEL_KEYWORDS)
 
-    all_posts = [p for p in all_posts if is_vercel(p)]
+    all_posts = [p for p in all_posts if is_vercel(p) and p.get("score", 0) > 1]
     all_posts.sort(key=lambda p: p.get("score", 0), reverse=True)
     return all_posts
 
@@ -166,7 +175,7 @@ def hn_fetch(time_filter="month", limit=30):
 
     url = "https://hn.algolia.com/api/v1/search"
     params = {
-        "query": "vercel deployment",
+        "query": "vercel",
         "tags": "story",
         "hitsPerPage": limit,
         "numericFilters": f"created_at_i>{since},points>5",
@@ -206,8 +215,9 @@ def hn_extract(hit, fetch_cmts=True):
         time.sleep(0.5)
 
     title = hit.get("title", "")
-    text = (title + " " + (hit.get("story_text") or "")).lower()
-    if not any(kw in text for kw in VERCEL_KEYWORDS):
+    # Require "vercel" in the title — HN stories often have no body text,
+    # so body-only matches are usually tangential mentions, not Vercel-focused posts
+    if not any(kw in title.lower() for kw in VERCEL_KEYWORDS):
         return None
 
     created = hit.get("created_at_i", 0)
@@ -337,7 +347,7 @@ def build_prompt(posts, time_filter, source_label):
 def build_github_prompt(issues, time_filter):
     lines = [
         f"Below are GitHub issues from the past {time_filter} related to Vercel.\n"
-        f"Sources: vercel/next.js (the main Next.js repo) and broader GitHub search for Vercel deployment issues.\n"
+        f"Sources: vercel/next.js, vercel/vercel, and other repos in the Vercel org — bugs with meaningful community reaction.\n"
     ]
     for i, p in enumerate(issues, 1):
         lines.append(f"── Issue {i} ──────────────────")
@@ -396,6 +406,9 @@ def build_overview_prompt(reddit_summary, hn_summary, github_summary, twitter_su
 
 Now write a combined overview synthesizing all sources:
 
+## Executive Summary
+3–5 bullet points. Each bullet is one crisp sentence. Cover: the single biggest user pain, the dominant sentiment, any urgent issue worth escalating, and one positive signal. Written for a busy executive who won't read the rest.
+
 ## What Everyone's Talking About
 Dominant themes across all communities.
 
@@ -412,7 +425,7 @@ Combined read across all platforms.
 The most important takeaways a product team should know.
 
 ## Must-Read Posts & Issues
-Best 3–5 items from any source with URLs. Keep it tight."""
+Best 3–5 items from any source with URLs. Format each as: **[title](url)** — one sentence on why it matters. Keep it tight."""
 
 
 def claude_summarize(prompt, label):
@@ -461,7 +474,7 @@ def main():
 
     # ── Reddit ──
     print(f"\n🔍  Reddit (past {args.time})…")
-    raw_reddit = reddit_fetch(time_filter=args.time, posts_per_sub=args.limit)
+    raw_reddit = reddit_fetch(time_filter=args.time)
     print(f"    → {len(raw_reddit)} relevant posts\n")
     if fetch_cmts:
         print("💬  Fetching Reddit comments…")
@@ -486,6 +499,14 @@ def main():
     print(f"\n🔍  X/Twitter (past 7 days)…")
     raw_tweets, tweet_users = twitter_fetch()
     twitter_posts = [twitter_extract(t, tweet_users) for t in raw_tweets]
+    # Filter out tweets where "vercel" appears only late in a long post (tool roundup lists)
+    # unless they have very high engagement (genuinely viral)
+    def is_quality_tweet(p):
+        text = p["body"].lower()
+        idx = text.find("vercel")
+        vercel_early = idx != -1 and idx < 100
+        return vercel_early or p["likes"] >= 200
+    twitter_posts = [p for p in twitter_posts if is_quality_tweet(p)]
     twitter_posts.sort(key=lambda p: p["score"], reverse=True)
     print(f"    → {len(twitter_posts)} tweets")
 
