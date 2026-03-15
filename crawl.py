@@ -227,37 +227,60 @@ def hn_extract(hit, fetch_cmts=True):
 
 # ── X / Twitter ───────────────────────────────────────────────────────────────
 
-def twitter_fetch(limit=100):
+def twitter_fetch(limit=300):
     token = os.getenv("TWITTER_BEARER_TOKEN")
     if not token:
         print("  ⚠️  No TWITTER_BEARER_TOKEN — skipping X")
         return [], {}
 
     headers = {"Authorization": f"Bearer {token}"}
-    query = '(vercel OR "vercel deploy" OR "vercel ai") -is:retweet -is:reply lang:en'
-    params = {
-        "query": query,
-        "max_results": min(limit, 100),
-        "tweet.fields": "public_metrics,created_at,author_id,text",
-        "expansions": "author_id",
-        "user.fields": "username,name",
-    }
-    try:
-        r = requests.get(
-            "https://api.twitter.com/2/tweets/search/recent",
-            headers=headers,
-            params=params,
-            timeout=15,
-        )
-        r.raise_for_status()
-        data = r.json()
-        tweets = data.get("data", [])
-        users = {u["id"]: u for u in data.get("includes", {}).get("users", [])}
-        print(f"  ✅  X/Twitter: {len(tweets)} tweets")
-        return tweets, users
-    except Exception as e:
-        print(f"  ⚠️  X/Twitter: {e}")
-        return [], {}
+    # Tight query: must mention Vercel as a platform, not just a .vercel.app URL
+    query = (
+        '(@vercel OR "vercel deploy" OR "vercel pricing" OR "vercel cost" OR '
+        '"vercel down" OR "deploy to vercel" OR "vercel serverless" OR '
+        '"vercel edge" OR "vercel functions" OR "vercel vs" OR "left vercel" OR '
+        '"switched from vercel" OR "vercel billing" OR "vercel free tier") '
+        '-is:retweet -is:reply lang:en'
+    )
+
+    all_tweets, all_users = [], {}
+    next_token = None
+
+    while len(all_tweets) < limit:
+        batch = min(100, limit - len(all_tweets))
+        params = {
+            "query": query,
+            "max_results": batch,
+            "tweet.fields": "public_metrics,created_at,author_id,text",
+            "expansions": "author_id",
+            "user.fields": "username,name",
+        }
+        if next_token:
+            params["next_token"] = next_token
+
+        try:
+            r = requests.get(
+                "https://api.twitter.com/2/tweets/search/recent",
+                headers=headers,
+                params=params,
+                timeout=15,
+            )
+            r.raise_for_status()
+            data = r.json()
+            batch_tweets = data.get("data", [])
+            all_tweets.extend(batch_tweets)
+            for u in data.get("includes", {}).get("users", []):
+                all_users[u["id"]] = u
+            next_token = data.get("meta", {}).get("next_token")
+            print(f"  ✅  X/Twitter page: {len(batch_tweets)} tweets (total: {len(all_tweets)})")
+            if not next_token or not batch_tweets:
+                break
+            time.sleep(2)
+        except Exception as e:
+            print(f"  ⚠️  X/Twitter: {e}")
+            break
+
+    return all_tweets, all_users
 
 
 def twitter_extract(tweet, users):
