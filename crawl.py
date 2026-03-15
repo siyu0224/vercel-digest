@@ -267,9 +267,9 @@ def twitter_fetch():
         params = {
             "query": query,
             "max_results": 100,  # always fetch max per page
-            "tweet.fields": "public_metrics,created_at,author_id,text",
+            "tweet.fields": "public_metrics,created_at,author_id,text,conversation_id",
             "expansions": "author_id",
-            "user.fields": "username,name",
+            "user.fields": "username,name,public_metrics",
         }
         if next_token:
             params["next_token"] = next_token
@@ -301,11 +301,52 @@ def twitter_fetch():
     return all_tweets, all_users
 
 
+def twitter_replies(conversation_id, token, limit=8):
+    """Fetch top replies for a tweet conversation, sorted by likes."""
+    headers = {"Authorization": f"Bearer {token}"}
+    params = {
+        "query": f"conversation_id:{conversation_id} is:reply lang:en",
+        "max_results": 100,
+        "tweet.fields": "public_metrics,author_id,text",
+        "expansions": "author_id",
+        "user.fields": "username,public_metrics",
+    }
+    try:
+        r = requests.get(
+            "https://api.twitter.com/2/tweets/search/recent",
+            headers=headers,
+            params=params,
+            timeout=15,
+        )
+        r.raise_for_status()
+        data = r.json()
+        tweets = data.get("data", [])
+        users = {u["id"]: u for u in data.get("includes", {}).get("users", [])}
+        replies = []
+        for t in tweets:
+            metrics = t.get("public_metrics", {})
+            likes = metrics.get("like_count", 0)
+            author = users.get(t.get("author_id", ""), {})
+            followers = author.get("public_metrics", {}).get("followers_count", 0)
+            replies.append({
+                "score": likes,
+                "followers": followers,
+                "username": author.get("username", ""),
+                "body": t.get("text", "")[:400].strip(),
+            })
+        # Sort by likes desc, surface notable voices (10k+ followers) first
+        replies.sort(key=lambda x: (x["followers"] >= 10000, x["score"]), reverse=True)
+        return replies[:limit]
+    except Exception:
+        return []
+
+
 def twitter_extract(tweet, users):
     metrics = tweet.get("public_metrics", {})
     author = users.get(tweet.get("author_id", ""), {})
     username = author.get("username", "unknown")
     tweet_id = tweet.get("id", "")
+    conversation_id = tweet.get("conversation_id", tweet_id)
     likes = metrics.get("like_count", 0)
     retweets = metrics.get("retweet_count", 0)
     created = tweet.get("created_at", "")[:10]
@@ -321,6 +362,7 @@ def twitter_extract(tweet, users):
         "date": created,
         "body": tweet.get("text", ""),
         "username": username,
+        "comments": [],
     }
 
 
@@ -387,6 +429,9 @@ def build_twitter_prompt(posts, time_filter):
         lines.append(f"@{p['username']}  |  ❤️ {p['likes']}  🔁 {p['retweets']}  |  {p['date']}")
         lines.append(f"URL: {p['url']}")
         lines.append(p["body"])
+        for c in p.get("comments", []):
+            note = " [notable]" if c.get("followers", 0) >= 10000 else ""
+            lines.append(f"  ↳ @{c['username']}{note} [{c['score']}❤️]: {c['body']}")
         lines.append("")
     lines.append(
         "Produce a concise Markdown summary:\n\n"
@@ -413,7 +458,16 @@ def build_overview_prompt(reddit_summary, hn_summary, github_summary, twitter_su
 Now write a combined overview synthesizing all sources:
 
 ## Executive Summary
-3–5 bullet points. Each bullet is one crisp sentence. Cover: the single biggest user pain, the dominant sentiment, any urgent issue worth escalating, and one positive signal. Written for a busy executive who won't read the rest.
+3–4 bullets. Think of this as a 30-second CEO briefing — short, specific, no fluff.
+Rules:
+- Each bullet = exactly ONE sentence
+- Be ruthlessly specific: name the exact feature, metric, or pattern ("cold-start timeouts on hobby plans" not "performance issues")
+- No vague sentiment language. State the signal directly.
+- Bullet 1: The #1 risk or pain with the most community volume this period
+- Bullet 2: The strongest positive signal — what's clearly working
+- Bullet 3: Any unresolved high-reaction issue that needs escalation — or skip if none
+- Bullet 4 (optional): One emerging trend not visible last month
+Start each bullet with a bold label, e.g. **Pricing friction**, **AI SDK adoption**, **Unresolved: build regression**.
 
 ## What Everyone's Talking About
 Dominant themes across all communities.
@@ -515,6 +569,15 @@ def main():
     twitter_posts = [p for p in twitter_posts if is_quality_tweet(p)]
     twitter_posts.sort(key=lambda p: p["score"], reverse=True)
     print(f"    → {len(twitter_posts)} tweets")
+    # Fetch reply threads for top 25 tweets by engagement
+    twitter_token = os.getenv("TWITTER_BEARER_TOKEN")
+    if fetch_cmts and twitter_token:
+        print("💬  Fetching X reply threads for top 25 tweets…")
+        for p in twitter_posts[:25]:
+            if p["likes"] >= 50:
+                tweet_id = p["url"].split("/")[-1]
+                p["comments"] = twitter_replies(tweet_id, twitter_token)
+                time.sleep(1)
 
     if args.no_summarize:
         print("\n── Reddit ──")
