@@ -128,10 +128,10 @@ def reddit_fetch(time_filter="month", posts_per_sub=20):
     return all_posts
 
 
-def reddit_comments(permalink, limit=6):
+def reddit_comments(permalink, limit=10):
     try:
         r = requests.get(f"https://www.reddit.com{permalink}.json",
-                         headers=HEADERS, timeout=10)
+                         headers=HEADERS, params={"sort": "top", "limit": 25}, timeout=10)
         r.raise_for_status()
         items = r.json()[1]["data"]["children"]
         out = []
@@ -141,10 +141,8 @@ def reddit_comments(permalink, limit=6):
             c = item["data"]
             body = c.get("body", "")
             if body not in ("[deleted]", "[removed]", ""):
-                out.append({"score": c.get("score", 0), "body": body[:500].strip()})
-            if len(out) >= limit:
-                break
-        return sorted(out, key=lambda x: x["score"], reverse=True)
+                out.append({"score": c.get("score", 0), "body": body[:800].strip()})
+        return sorted(out, key=lambda x: x["score"], reverse=True)[:limit]
     except Exception:
         return []
 
@@ -191,19 +189,27 @@ def hn_fetch(time_filter="month", limit=30):
         return []
 
 
-def hn_comments(story_id, limit=6):
+def hn_comments(story_id, limit=10):
     try:
         r = requests.get(f"https://hn.algolia.com/api/v1/items/{story_id}", timeout=10)
         r.raise_for_status()
-        children = r.json().get("children", [])
-        out = []
-        for c in children:
-            text = c.get("text", "") or ""
-            if text and c.get("type") == "comment":
-                out.append({"score": c.get("points") or 0, "body": text[:500].strip()})
-            if len(out) >= limit:
-                break
-        return out
+        data = r.json()
+
+        def collect(nodes, depth=0):
+            """Recursively collect comments up to 2 levels deep."""
+            results = []
+            for c in (nodes or []):
+                text = c.get("text", "") or ""
+                if c.get("type") == "comment" and text:
+                    results.append({"score": c.get("points") or 0, "body": text[:800].strip()})
+                if depth < 2:
+                    results.extend(collect(c.get("children", []), depth + 1))
+            return results
+
+        all_comments = collect(data.get("children", []))
+        # Sort by points descending; HN comment points are often 0 but non-zero ones are high signal
+        all_comments.sort(key=lambda x: x["score"], reverse=True)
+        return all_comments[:limit]
     except Exception:
         return []
 
