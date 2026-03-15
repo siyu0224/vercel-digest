@@ -1,0 +1,38 @@
+name: Weekly Vercel Digest
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'   # Every Monday at 9am UTC
+  workflow_dispatch:        # Also allows manual trigger from GitHub UI
+
+jobs:
+  crawl-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run crawler
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          TWITTER_BEARER_TOKEN: ${{ secrets.TWITTER_BEARER_TOKEN }}
+        run: python crawl.py --time month --publish
+
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          npm install -g vercel
+          cd website
+          vercel --prod --yes --token $VERCEL_TOKEN

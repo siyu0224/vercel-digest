@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vercel Digest</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0f0f0f;
+      color: #e8e8e8;
+      min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 200px;
+      flex-shrink: 0;
+      border-right: 1px solid #1e1e1e;
+      padding: 2.5rem 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-brand {
+      padding: 0 1.5rem 2rem;
+      border-bottom: 1px solid #1e1e1e;
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar-brand h1 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .sidebar-brand h1 span { color: #fff; }
+
+    .sidebar-brand p {
+      font-size: 0.72rem;
+      color: #555;
+      margin-top: 0.3rem;
+    }
+
+    .nav-label {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #444;
+      padding: 0 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.55rem 1.5rem;
+      cursor: pointer;
+      transition: background 0.12s;
+      border-left: 2px solid transparent;
+      color: #888;
+      font-size: 0.85rem;
+    }
+
+    .nav-item:hover { background: #161616; color: #ccc; }
+
+    .nav-item.active {
+      border-left-color: #fff;
+      color: #fff;
+      background: #161616;
+    }
+
+    .nav-icon { font-size: 0.9rem; }
+
+    .nav-count {
+      margin-left: auto;
+      font-size: 0.68rem;
+      color: #444;
+      background: #1e1e1e;
+      padding: 0.1rem 0.4rem;
+      border-radius: 99px;
+    }
+
+    .nav-item.active .nav-count { color: #666; }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 1.5rem;
+      border-top: 1px solid #1e1e1e;
+      font-size: 0.7rem;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    /* ── Main ── */
+    .main {
+      flex: 1;
+      padding: 2.5rem 3rem;
+      max-width: 800px;
+    }
+
+    /* ── Page header ── */
+    .page-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    .page-header h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.3rem;
+    }
+
+    .page-header p {
+      font-size: 0.82rem;
+      color: #555;
+    }
+
+    /* ── Summary content ── */
+    .content h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin: 2rem 0 0.6rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    .content p {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: #bbb;
+      margin-bottom: 0.5rem;
+    }
+
+    .content ul { list-style: none; margin-bottom: 0.5rem; }
+
+    .content li {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: #bbb;
+      padding-left: 1.2rem;
+      position: relative;
+      margin-bottom: 0.2rem;
+    }
+
+    .content li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: #fff;
+    }
+
+    .content strong { color: #e8e8e8; font-weight: 500; }
+    .content a { color: #fff; text-decoration: none; border-bottom: 1px solid #333; }
+    .content a:hover { border-bottom-color: #fff; }
+
+    /* ── Must-read cards ── */
+    .mustreads { margin-top: 2rem; }
+
+    .mustreads h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    .mustread-card {
+      background: #141414;
+      border: 1px solid #222;
+      border-left: 3px solid #fff;
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 0.55rem;
+      transition: background 0.15s;
+    }
+
+    .mustread-card:hover { background: #1a1a1a; }
+
+    .mustread-card a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #e0e0e0;
+      text-decoration: none;
+      display: block;
+      line-height: 1.45;
+      margin-bottom: 0.25rem;
+    }
+
+    .mustread-card a:hover { color: #fff; }
+
+    .mustread-desc {
+      font-size: 0.78rem;
+      color: #555;
+      line-height: 1.55;
+    }
+
+    /* ── Post rows ── */
+    .posts-section { margin-top: 2.5rem; }
+
+    .posts-section h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    .post-row {
+      display: grid;
+      grid-template-columns: 3rem 1fr auto;
+      align-items: baseline;
+      gap: 0 1rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #191919;
+      transition: opacity 0.15s;
+    }
+
+    .post-row:first-of-type { border-top: 1px solid #191919; }
+    .post-row:hover { opacity: 0.55; }
+
+    .post-score {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: right;
+    }
+
+    .post-title {
+      font-size: 0.87rem;
+      color: #ccc;
+      text-decoration: none;
+      line-height: 1.45;
+    }
+
+    .post-title:hover { color: #fff; }
+
+    .post-meta {
+      font-size: 0.7rem;
+      color: #444;
+      white-space: nowrap;
+    }
+
+    /* ── Tab panels ── */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── Source note ── */
+    .source-note {
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      border-left: 3px solid #555;
+      border-radius: 6px;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.82rem;
+      color: #777;
+      line-height: 1.6;
+    }
+    .source-note strong { color: #999; }
+    .source-note code { color: #aaa; font-size: 0.78rem; }
+
+    /* ── Loading / error ── */
+    .loading {
+      color: #555;
+      font-size: 0.9rem;
+      padding: 3rem 0;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 640px) {
+      .layout { flex-direction: column; }
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        flex-direction: row;
+        padding: 1rem 1rem 0;
+        flex-wrap: wrap;
+        gap: 0;
+        border-right: none;
+        border-bottom: 1px solid #1e1e1e;
+      }
+      .sidebar-brand { padding: 0 0 0.8rem; border-bottom: none; margin-bottom: 0; width: 100%; }
+      .nav-label { display: none; }
+      .nav-item { border-left: none; border-bottom: 2px solid transparent; padding: 0.5rem 0.8rem; }
+      .nav-item.active { border-left: none; border-bottom-color: #fff; }
+      .sidebar-footer { display: none; }
+      .main { padding: 1.5rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <h1>Vercel <span>Digest</span></h1>
+      <p id="sidebar-meta">Loading…</p>
+    </div>
+    <p class="nav-label">Sources</p>
+    <div class="nav-item active" data-tab="overview">
+      <span class="nav-icon">◈</span> Overview
+    </div>
+    <div class="nav-item" data-tab="twitter">
+      <span class="nav-icon">✕</span> X / Twitter
+      <span class="nav-count" id="twitter-count">—</span>
+    </div>
+    <div class="nav-item" data-tab="reddit">
+      <span class="nav-icon">◎</span> Reddit
+      <span class="nav-count" id="reddit-count">—</span>
+    </div>
+    <div class="nav-item" data-tab="github">
+      <span class="nav-icon">⬡</span> GitHub
+      <span class="nav-count" id="gh-count">—</span>
+    </div>
+    <div class="nav-item" data-tab="hn">
+      <span class="nav-icon">◈</span> Hacker News
+      <span class="nav-count" id="hn-count">—</span>
+    </div>
+    <div class="sidebar-footer" id="sidebar-footer">Built with Claude</div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <div class="tab-panel active" id="tab-overview">
+      <div class="page-header">
+        <h2>Overview</h2>
+        <p id="overview-header-meta">Combined signals from X, Reddit, GitHub &amp; HN</p>
+      </div>
+      <div id="overview-content"><p class="loading">Loading…</p></div>
+    </div>
+
+    <div class="tab-panel" id="tab-twitter">
+      <div class="page-header">
+        <h2>X / Twitter</h2>
+        <p id="twitter-header-meta">Loading…</p>
+      </div>
+      <div class="source-note">
+        <strong>What we search for:</strong> Tweets matching <code>vercel</code>, <code>"vercel deploy"</code>, or <code>"vercel ai"</code> — original posts only (no retweets or replies), English language, past 7 days. Sorted by engagement (likes + retweets). Low-quality or off-topic tweets may appear since X Basic tier doesn't support engagement filtering.
+      </div>
+      <div id="twitter-content"><p class="loading">Loading…</p></div>
+    </div>
+
+    <div class="tab-panel" id="tab-reddit">
+      <div class="page-header">
+        <h2>Reddit</h2>
+        <p id="reddit-header-meta">Loading…</p>
+      </div>
+      <div id="reddit-content"><p class="loading">Loading…</p></div>
+    </div>
+
+    <div class="tab-panel" id="tab-github">
+      <div class="page-header">
+        <h2>GitHub Issues</h2>
+        <p id="gh-header-meta">Loading…</p>
+      </div>
+      <div class="source-note">
+        <strong>Sources:</strong> <code>vercel/next.js</code> (the main Next.js repo) and broader GitHub search for Vercel deployment issues.
+      </div>
+      <div id="gh-content"><p class="loading">Loading…</p></div>
+    </div>
+
+    <div class="tab-panel" id="tab-hn">
+      <div class="page-header">
+        <h2>Hacker News</h2>
+        <p id="hn-header-meta">Loading…</p>
+      </div>
+      <div id="hn-content"><p class="loading">Loading…</p></div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  // ── Tab switching ──────────────────────────────────────────────────────────
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      item.classList.add('active');
+      document.getElementById('tab-' + item.dataset.tab).classList.add('active');
+    });
+  });
+
+  // ── Markdown helpers ───────────────────────────────────────────────────────
+  function inline(t) {
+    return t
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>')
+      .replace(/\[(.+?)\]\((https?:\/\/[^\)]+)\)/g,
+        '<a href="$2" target="_blank" rel="noopener">$1</a>')
+      .replace(/(https?:\/\/\S+)/g,
+        u => `<a href="${u}" target="_blank" rel="noopener">${u}</a>`);
+  }
+
+  function parseSections(md) {
+    const sections = [];
+    let cur = null;
+    for (const line of md.split('\n')) {
+      if (line.match(/^#{1,3} /)) {
+        if (cur) sections.push(cur);
+        const heading = line.replace(/^#+\s/, '').trim();
+        cur = { heading, concern: /concern|warning|⚠️|alarm/i.test(heading), lines: [] };
+      } else if (cur) {
+        cur.lines.push(line);
+      }
+    }
+    if (cur) sections.push(cur);
+    return sections;
+  }
+
+  function renderLines(lines) {
+    const out = [];
+    let inList = false;
+    for (const line of lines) {
+      if (line.match(/^[-*]\s/) || line.match(/^\d+\.\s/)) {
+        if (!inList) { out.push('<ul>'); inList = true; }
+        out.push(`<li>${inline(line.replace(/^([-*]|\d+\.)\s+/, ''))}</li>`);
+      } else {
+        if (inList) { out.push('</ul>'); inList = false; }
+        if (line.trim()) out.push(`<p>${inline(line)}</p>`);
+      }
+    }
+    if (inList) out.push('</ul>');
+    return out.join('');
+  }
+
+  function isMustRead(h) {
+    return /must.?read|standout|featured/i.test(h);
+  }
+
+  function parseMustReads(lines) {
+    const items = [];
+    let cur = null;
+    for (const line of lines) {
+      const m = line.match(/\[(.+?)\]\((https?:\/\/[^\)]+)\)/);
+      if (m) {
+        if (cur) items.push(cur);
+        const after = line.slice(line.indexOf(')') + 1).replace(/^[\s—–\-*]+/, '').trim();
+        cur = { title: m[1], url: m[2], desc: after };
+      } else if (cur && line.trim() && !line.match(/^[-*\d]/)) {
+        cur.desc += ' ' + line.trim();
+      }
+    }
+    if (cur) items.push(cur);
+    return items;
+  }
+
+  function renderSummary(summaryMd) {
+    const sections = parseSections(summaryMd);
+    let html = '';
+    let mustreadsHtml = '';
+
+    for (const sec of sections) {
+      if (isMustRead(sec.heading)) {
+        const items = parseMustReads(sec.lines);
+        if (items.length) {
+          mustreadsHtml = `<div class="mustreads">
+            <h2>${sec.heading}</h2>
+            ${items.map(i => `
+              <div class="mustread-card">
+                <a href="${i.url}" target="_blank" rel="noopener">${i.title}</a>
+                ${i.desc ? `<div class="mustread-desc">${inline(i.desc)}</div>` : ''}
+              </div>`).join('')}
+          </div>`;
+          continue;
+        }
+      }
+      const hStyle = sec.concern ? ' style="color:#e8a020;border-bottom-color:#3a2a10"' : '';
+      html += `<h2${hStyle}>${sec.heading}</h2>${renderLines(sec.lines)}`;
+    }
+
+    return `<div class="content">${html}</div>${mustreadsHtml}`;
+  }
+
+  function renderPosts(posts, label) {
+    if (!posts.length) return '';
+    const rows = posts.map(p => {
+      const meta = p.subreddit ? `r/${p.subreddit}` : p.date;
+      const url  = p.hn_url || p.url;
+      return `<div class="post-row">
+        <div class="post-score">${p.score}</div>
+        <a class="post-title" href="${url}" target="_blank" rel="noopener">${p.title}</a>
+        <div class="post-meta">${meta}</div>
+      </div>`;
+    }).join('');
+    return `<div class="posts-section"><h2>${posts.length} ${label}</h2>${rows}</div>`;
+  }
+
+  function renderGhPosts(posts) {
+    if (!posts.length) return '';
+    const labelColors = { bug: '#e53e3e', enhancement: '#38a169', question: '#3182ce', documentation: '#805ad5' };
+    const rows = posts.map(p => {
+      const labelBadges = (p.labels || []).map(l => {
+        const color = labelColors[l] || '#555';
+        return `<span style="font-size:0.62rem;padding:0.1rem 0.4rem;border-radius:3px;background:${color}22;color:${color};border:1px solid ${color}44">${l}</span>`;
+      }).join(' ');
+      return `<div class="post-row">
+        <div class="post-score">👍${p.score}</div>
+        <div>
+          <a class="post-title" href="${p.url}" target="_blank" rel="noopener">${p.title}</a>
+          ${labelBadges ? `<div style="margin-top:0.25rem">${labelBadges}</div>` : ''}
+        </div>
+        <div class="post-meta">${p.date}</div>
+      </div>`;
+    }).join('');
+    return `<div class="posts-section"><h2>${posts.length} Issues</h2>${rows}</div>`;
+  }
+
+  function renderTwitterPosts(posts) {
+    if (!posts.length) return '';
+    const rows = posts.map(p => {
+      return `<div class="post-row">
+        <div class="post-score">❤️${p.likes}</div>
+        <div>
+          <a class="post-title" href="${p.url}" target="_blank" rel="noopener">${p.title}</a>
+          <div style="font-size:0.72rem;color:#555;margin-top:0.2rem">@${p.username} · 🔁 ${p.retweets}</div>
+        </div>
+        <div class="post-meta">${p.date}</div>
+      </div>`;
+    }).join('');
+    return `<div class="posts-section"><h2>${posts.length} Tweets</h2>${rows}</div>`;
+  }
+
+  // ── Load data ──────────────────────────────────────────────────────────────
+  async function load() {
+    try {
+      const res = await fetch('./data.json');
+      if (!res.ok) throw new Error();
+      const d = await res.json();
+
+      // Sidebar meta
+      document.getElementById('sidebar-meta').textContent =
+        `${d.generated} · past ${d.time_filter}`;
+      document.getElementById('sidebar-footer').innerHTML =
+        `Built by Siyu Liu<br>with Claude + Cursor + Vercel<br>X · Reddit · GitHub · HN`;
+      document.getElementById('twitter-count').textContent =
+        d.twitter?.post_count ?? '—';
+      document.getElementById('reddit-count').textContent =
+        d.reddit?.post_count ?? '—';
+      document.getElementById('gh-count').textContent =
+        d.github?.post_count ?? '—';
+      document.getElementById('hn-count').textContent =
+        d.hn?.post_count ?? '—';
+
+      // Overview
+      const totalCount = (d.overview?.twitter_count ?? 0) + (d.overview?.reddit_count ?? 0) +
+        (d.overview?.gh_count ?? 0) + (d.overview?.hn_count ?? 0);
+      document.getElementById('overview-header-meta').textContent =
+        `${totalCount} posts across X, Reddit, GitHub & HN · past ${d.time_filter}`;
+      document.getElementById('overview-content').innerHTML =
+        renderSummary(d.overview?.summary || '') +
+        renderPosts([
+          ...(d.twitter?.posts || []).slice(0, 2),
+          ...(d.reddit?.posts  || []).slice(0, 2),
+          ...(d.github?.posts  || []).slice(0, 2),
+          ...(d.hn?.posts      || []).slice(0, 2),
+        ], 'Top Posts');
+
+      // X / Twitter
+      document.getElementById('twitter-header-meta').textContent =
+        `${d.twitter?.post_count ?? 0} tweets · past 7 days`;
+      document.getElementById('twitter-content').innerHTML =
+        renderSummary(d.twitter?.summary || '') +
+        renderTwitterPosts(d.twitter?.posts || []);
+
+      // Reddit
+      document.getElementById('reddit-header-meta').textContent =
+        `${d.reddit?.post_count ?? 0} posts · past ${d.time_filter}`;
+      document.getElementById('reddit-content').innerHTML =
+        renderSummary(d.reddit?.summary || '') +
+        renderPosts(d.reddit?.posts || [], 'Discussions');
+
+      // GitHub
+      document.getElementById('gh-header-meta').textContent =
+        `${d.github?.post_count ?? 0} issues · vercel/next.js · past ${d.time_filter}`;
+      document.getElementById('gh-content').innerHTML =
+        renderSummary(d.github?.summary || '') +
+        renderGhPosts(d.github?.posts || []);
+
+      // HN
+      document.getElementById('hn-header-meta').textContent =
+        `${d.hn?.post_count ?? 0} stories · past ${d.time_filter}`;
+      document.getElementById('hn-content').innerHTML =
+        renderSummary(d.hn?.summary || '') +
+        renderPosts(d.hn?.posts || [], 'Stories');
+
+    } catch (e) {
+      document.getElementById('overview-content').innerHTML =
+        `<p class="loading">No data yet — run python3 crawl.py --publish</p>`;
+    }
+  }
+
+  load();
+</script>
+</body>
+</html>

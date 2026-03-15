@@ -1,0 +1,5 @@
+.env
+*.docx
+vercel-digest-*.md
+__pycache__/
+*.pyc
