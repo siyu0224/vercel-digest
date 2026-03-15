@@ -482,7 +482,7 @@ def main():
 
     # ── X / Twitter ──
     print(f"\n🔍  X/Twitter (past 7 days)…")
-    raw_tweets, tweet_users = twitter_fetch(limit=100)
+    raw_tweets, tweet_users = twitter_fetch(limit=300)
     twitter_posts = [twitter_extract(t, tweet_users) for t in raw_tweets]
     twitter_posts.sort(key=lambda p: p["score"], reverse=True)
     print(f"    → {len(twitter_posts)} tweets")
