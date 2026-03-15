@@ -329,7 +329,7 @@ def build_prompt(posts, time_filter, source_label):
         "Produce a concise Markdown summary:\n\n"
         "## Key Themes\n## Overall Sentiment\n## Top Complaints & Issues\n"
         "## Top Praise\n## Interesting Debates\n## Must-Read Posts\n"
-        "3–5 standout posts with URLs. Keep it tight."
+        "3–5 standout posts. Format each as: **[Post title](url)** — one sentence on why it matters. Keep it tight."
     )
     return "\n".join(lines)
 
@@ -359,7 +359,7 @@ def build_github_prompt(issues, time_filter):
         "## Team Responsiveness\n"
         "Are teams responding? Any official fixes?\n\n"
         "## Must-Read Issues\n"
-        "3–5 standout issues with GitHub URLs.\n\nKeep it tight."
+        "3–5 standout issues. Format each as: **[Issue title](url)** — one sentence on why it matters. Keep it tight."
     )
     return "\n".join(lines)
 
@@ -376,7 +376,7 @@ def build_twitter_prompt(posts, time_filter):
         "Produce a concise Markdown summary:\n\n"
         "## Key Themes\n## Overall Sentiment\n## Top Complaints & Issues\n"
         "## Top Praise\n## Viral Moments\n## Must-Read Posts\n"
-        "3–5 standout tweets with URLs. Keep it tight."
+        "3–5 standout tweets. Format each as: **[Short description of tweet](url)** — one sentence on why it matters. Keep it tight."
     )
     return "\n".join(lines)
 
